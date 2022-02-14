@@ -1,0 +1,52 @@
+Start (Stampa)
+
+      numeri[]= leggi input;	
+      indice=0;
+
+      While(indice<lunghezza di numeri)do
+            stampa numeri [indice]
+            indice=indice+1
+      end while
+End
+
+Start (Ricerca)
+
+      numeri[]= leggi input; array di numeri interi
+      n= leggi input; il numero da cercare
+
+      trovato=false;
+      indice=0;
+      While(indice<lunghezza numeri && !trovato)do 
+           if(numeri[indice]==n)then
+                    trovato=true;
+           end if
+      end while
+      indice=indice+1;
+      return trovato;
+
+Start (ordina bubble sort)
+
+      numeri = leggi input;
+      
+      do
+          ordinato=true;
+          indice=0;
+          while(indice<numeri.length -1)do
+                if(numeri[indice]> numeri+1])then
+                          tmp= numeri[indice];
+                          numeri[indice]= numeri[indice+1];
+                          numeri[indice+1]= tmp;
+                          ordinato=false;
+                end if
+                indice=indice+1;
+          end while
+      while(!ordinato);
+End
+
+
+
+
+
+
+
+

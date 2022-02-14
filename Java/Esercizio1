@@ -1,0 +1,47 @@
+*
+     * Esprimete con le strutture di controllo fondamentali un algoritmo per il
+     * calcolo della somma di
+     * tutti i numeri interi compresi tra x e y, estremi inclusi, dove x e y sono
+     * due interi forniti dall’utente.
+     * Se ad esempio l’utente fornisce 3 e 8 il risultato dovr`a essere 33. Nella
+     * prima versione supponete
+     * che l’utente fornisca i numeri in ordine non decrescente. Nella seconda
+     * versione l’algoritmo deve
+     * calcolare la somma indipendentemente dall’ordine: se l’utente fornisce prima
+     * 8 e poi 3 il risultato
+     * deve essere di nuovo 33.
+     */
+
+START
+     	
+	primoEstremo= leggo numero;
+	
+	secondoEstremo= leggo numero;
+	
+	somma= 0;
+	
+	if( primoEstremo>secondoEstremo)then
+	valoreAppoggio=primoEstremo;
+	primoEstremo=secondoEstremo;
+	secondoEstremo=valoreAppoggio;
+
+	end if
+
+	numero=primoEstremo;
+	risultato=0;
+	
+	while(numero<=secondoEstremo)do
+ 	risultato=risultato+numero;
+	numero=numero+1;
+	
+	end while
+
+	stampo risultato;
+
+	
+END 
+	
+	
+ 
+	
+	

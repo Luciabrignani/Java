@@ -1,0 +1,26 @@
+ /*
+        Esprimete di controllo fondamentali un algoritmo per il calcolo del prodotto di due numeri interi, utilizzando esculusivamente operazioni di somma
+    */
+
+
+
+
+
+
+START
+
+	numero1=0;  numero2=0;  risultato=0;
+
+	conta=1;
+  	
+	risultato=0;
+	
+	While (conta<=numero2)do
+	risultato=risultato+numero1
+	conta= conta+1;
+	
+	end while
+	
+	stampa risultato;
+	
+END
