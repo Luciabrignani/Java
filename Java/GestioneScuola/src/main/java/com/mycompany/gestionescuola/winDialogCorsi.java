@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,24 +9,20 @@ import java.io.FileWriter;
 import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
 
+
 /**
  *
  * @author tss
  */
-public class WinGestioneCorso extends javax.swing.JFrame {
-
-    int idcorso = -1;
+public class winDialogCorsi extends javax.swing.JDialog {
 
     /**
-     * Creates new form WinGestioneCorso
+     * Creates new form winDialogCorsi
      */
-    public WinGestioneCorso() {
+    public winDialogCorsi(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        // default per oggetti
-        spDurata.setValue(1);
-        // creo una list per compilare la jlist
-        refreshLista();
-
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -38,39 +34,40 @@ public class WinGestioneCorso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txLink = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        btnCreaCorso = new javax.swing.JButton();
         lblMsg = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstCorsi = new javax.swing.JList<>();
         lblTitolo = new javax.swing.JLabel();
         txNomeCorso = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txDescrizione = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         spDurata = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         txDataInizio = new javax.swing.JFormattedTextField();
+        txLink = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnCreaCorso = new javax.swing.JButton();
         btnPrepNewCorso = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstCorsi = new javax.swing.JList<>();
-        jLabel6 = new javax.swing.JLabel();
+        btnClose = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        txLink.setToolTipText("");
-
-        jLabel5.setText("link corso:");
-
-        btnCreaCorso.setText("Conferma dati");
-        btnCreaCorso.setEnabled(false);
-        btnCreaCorso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreaCorsoActionPerformed(evt);
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblMsg.setForeground(java.awt.Color.red);
+
+        lstCorsi.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstCorsi.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstCorsiValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstCorsi);
 
         lblTitolo.setFont(new java.awt.Font("Cantarell", 3, 22)); // NOI18N
         lblTitolo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -87,6 +84,8 @@ public class WinGestioneCorso extends javax.swing.JFrame {
                 txNomeCorsoKeyReleased(evt);
             }
         });
+
+        jLabel6.setText("Lista corsi");
 
         jLabel1.setText("nome corso:");
 
@@ -116,7 +115,19 @@ public class WinGestioneCorso extends javax.swing.JFrame {
             }
         });
 
+        txLink.setToolTipText("");
+
+        jLabel5.setText("link corso:");
+
         jLabel4.setText("Data inizio:");
+
+        btnCreaCorso.setText("Conferma dati");
+        btnCreaCorso.setEnabled(false);
+        btnCreaCorso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreaCorsoActionPerformed(evt);
+            }
+        });
 
         btnPrepNewCorso.setText("Nuovo corso");
         btnPrepNewCorso.addActionListener(new java.awt.event.ActionListener() {
@@ -125,31 +136,27 @@ public class WinGestioneCorso extends javax.swing.JFrame {
             }
         });
 
-        lstCorsi.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lstCorsi.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstCorsiValueChanged(evt);
+        btnClose.setText("Chiudi");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(lstCorsi);
-
-        jLabel6.setText("Lista corsi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnPrepNewCorso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
-                    .addComponent(jLabel6))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnPrepNewCorso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                            .addComponent(jLabel6)))
+                    .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTitolo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -160,7 +167,7 @@ public class WinGestioneCorso extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblMsg, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                                    .addComponent(lblMsg, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(btnCreaCorso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE))))
@@ -215,14 +222,60 @@ public class WinGestioneCorso extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPrepNewCorso)
                         .addGap(64, 64, 64)))
-                .addComponent(btnCreaCorso)
-                .addGap(41, 41, 41)
-                .addComponent(lblMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCreaCorso)
+                        .addGap(41, 41, 41)
+                        .addComponent(lblMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClose))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lstCorsiValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstCorsiValueChanged
+        // TODO add your handling code here:
+        int index = lstCorsi.getSelectedIndex();
+
+        Corso c = WinGestione.listacorsi.get(index);
+        lblMsg.setText("Corso selezionato correttamente!");
+        txNomeCorso.setText(c.getNomecorso());
+        txDescrizione.setText(c.getDescrizione());
+        txLink.setText(c.getLink());
+        //data complicata
+        DateTimeFormatter ddmmaa = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String dataok = c.getDatainizio().format(ddmmaa);
+
+        txDataInizio.setText(dataok);
+        spDurata.setValue(c.getDurataore());
+    }//GEN-LAST:event_lstCorsiValueChanged
+
+    private void txNomeCorsoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txNomeCorsoPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txNomeCorsoPropertyChange
+
+    private void txNomeCorsoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNomeCorsoKeyReleased
+        // TODO add your handling code here:
+        btnCreaCorso.setEnabled(validaCorso());
+    }//GEN-LAST:event_txNomeCorsoKeyReleased
+
+    private void spDurataStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spDurataStateChanged
+        // TODO add your handling code here:
+        btnCreaCorso.setEnabled(validaCorso());
+    }//GEN-LAST:event_spDurataStateChanged
+
+    private void spDurataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spDurataKeyReleased
+        // TODO add your handling code here:
+        btnCreaCorso.setEnabled(validaCorso());
+    }//GEN-LAST:event_spDurataKeyReleased
+
+    private void txDataInizioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txDataInizioKeyReleased
+        // TODO add your handling code here:
+        btnCreaCorso.setEnabled(validaCorso());
+    }//GEN-LAST:event_txDataInizioKeyReleased
 
     private void btnCreaCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreaCorsoActionPerformed
         // TODO add your handling code here:
@@ -239,7 +292,7 @@ public class WinGestioneCorso extends javax.swing.JFrame {
         Corso newcorso = new Corso(nc, durata, a, m, d);
         newcorso.setDescrizione(des);
         newcorso.setLink(link);
-        if (lstCorsi.getSelectedIndex() == -1) { //nessuna selezione non sono in modofica       
+        if (lstCorsi.getSelectedIndex() == -1) { //nessuna selezione non sono in modofica
             WinGestione.listacorsi.add(newcorso);
             lblMsg.setText("Corso Creato");
         } else { //lista selezionata sono in modifica dell'iesimo elemento
@@ -258,12 +311,7 @@ public class WinGestioneCorso extends javax.swing.JFrame {
         salvaCorsi();
         salvaCorsiCSV();
         validaCorso();
-
     }//GEN-LAST:event_btnCreaCorsoActionPerformed
-
-    private void txNomeCorsoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txNomeCorsoPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txNomeCorsoPropertyChange
 
     private void btnPrepNewCorsoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrepNewCorsoActionPerformed
         // semplicemente pulisco tutti i campi
@@ -275,48 +323,56 @@ public class WinGestioneCorso extends javax.swing.JFrame {
         spDurata.setValue(0);
         btnCreaCorso.setEnabled(false);
         lstCorsi.clearSelection();
-        
-        
+
     }//GEN-LAST:event_btnPrepNewCorsoActionPerformed
 
-    private void txNomeCorsoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNomeCorsoKeyReleased
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         // TODO add your handling code here:
-        btnCreaCorso.setEnabled(validaCorso());
-    }//GEN-LAST:event_txNomeCorsoKeyReleased
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void spDurataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spDurataKeyReleased
-        // TODO add your handling code here:
-        btnCreaCorso.setEnabled(validaCorso());
-    }//GEN-LAST:event_spDurataKeyReleased
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(winDialogCorsi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(winDialogCorsi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(winDialogCorsi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(winDialogCorsi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
-    private void txDataInizioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txDataInizioKeyReleased
-        // TODO add your handling code here:
-        btnCreaCorso.setEnabled(validaCorso());
-    }//GEN-LAST:event_txDataInizioKeyReleased
-
-    private void spDurataStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spDurataStateChanged
-        // TODO add your handling code here:
-        btnCreaCorso.setEnabled(validaCorso());
-    }//GEN-LAST:event_spDurataStateChanged
-
-    private void lstCorsiValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstCorsiValueChanged
-        // TODO add your handling code here:
-        int index = lstCorsi.getSelectedIndex();
-
-        Corso c = WinGestione.listacorsi.get(index);
-        lblMsg.setText("Corso selezionato correttamente!");
-        txNomeCorso.setText(c.getNomecorso());
-        txDescrizione.setText(c.getDescrizione());
-        txLink.setText(c.getLink());
-        //data complicata
-        DateTimeFormatter ddmmaa = DateTimeFormatter.ofPattern("dd/MM/yy");
-        String dataok = c.getDatainizio().format(ddmmaa);
-
-        txDataInizio.setText(dataok);
-        spDurata.setValue(c.getDurataore());
-
-    }//GEN-LAST:event_lstCorsiValueChanged
-    private boolean validaCorso() {
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                winDialogCorsi dialog = new winDialogCorsi(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+private boolean validaCorso() {
         boolean ret = false;
         int val = (int) spDurata.getValue();
         boolean okNome = !txNomeCorso.getText().equals("");
@@ -379,39 +435,17 @@ public class WinGestioneCorso extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WinGestioneCorso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WinGestioneCorso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WinGestioneCorso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WinGestioneCorso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+   
+    private void refreshLista() {
+        DefaultListModel model = new DefaultListModel();
+        for (int i = 0; i < WinGestione.listacorsi.size(); i++) {
+            String nc = WinGestione.listacorsi.get(i).getNomecorso();
+            model.addElement(nc);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new WinGestioneCorso().setVisible(true);
-            }
-        });
+        lstCorsi.setModel(model);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnCreaCorso;
     private javax.swing.JButton btnPrepNewCorso;
     private javax.swing.JLabel jLabel1;
@@ -430,13 +464,4 @@ public class WinGestioneCorso extends javax.swing.JFrame {
     private javax.swing.JTextField txLink;
     private javax.swing.JTextField txNomeCorso;
     // End of variables declaration//GEN-END:variables
-
-    private void refreshLista() {
-        DefaultListModel model = new DefaultListModel();
-        for (int i = 0; i < WinGestione.listacorsi.size(); i++) {
-            String nc = WinGestione.listacorsi.get(i).getNomecorso();
-            model.addElement(nc);
-        }
-        lstCorsi.setModel(model);
-    }
 }
