@@ -28,7 +28,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="145" max="-2" attributes="0"/>
               <EmptySpace pref="214" max="32767" attributes="0"/>
-              <Component id="btnGetionecorsi" min="-2" pref="201" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnGestionecorsi" pref="201" max="32767" attributes="0"/>
+                  <Component id="btnGestAnagrafica" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -40,8 +43,12 @@
               <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnGetionecorsi" min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" min="-2" pref="294" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="btnGestionecorsi" min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnGestAnagrafica" min="-2" pref="35" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane1" min="-2" pref="294" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="82" max="32767" attributes="0"/>
           </Group>
@@ -65,16 +72,24 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextPane" name="tpDisplay">
+        <Component class="javax.swing.JTextPane" name="list">
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnGetionecorsi">
+    <Component class="javax.swing.JButton" name="btnGestionecorsi">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gestione Corsi"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGetionecorsiActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGestionecorsiActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnGestAnagrafica">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Gestione Anagrafica"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGestAnagraficaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
