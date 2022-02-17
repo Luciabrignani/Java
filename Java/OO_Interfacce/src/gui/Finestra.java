@@ -22,23 +22,22 @@ public class Finestra extends JFrame implements ActionListener{
     private Button btn;
    
     public Finestra(String title) throws HeadlessException {
-           super(title);
-           this.setBounds(100,100,400,500);
-           this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-           this.btn= new Button("text");
-           btn.setBounds(100,100,100,50);
-           this.getContentPane().setLayout(null);
-           this.getContentPane().add(this.btn);
-           
-           this.btn.addActionListener(this);
-
-   
-} 
+        super(title);
+        this.setBounds(100, 100, 400, 500);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.btn = new Button("test");
+        btn.setBounds(100,100,100, 50);
+        this.getContentPane().setLayout(null);
+        this.getContentPane().add(this.btn);
+        
+        this.btn.addActionListener(this);
+        this.btn.addActionListener(new MioAscoltatore());
+        this.addMouseMotionListener(new MioAscoltatore());
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "fgfgfgfgf");
-        
+        JOptionPane.showMessageDialog(this, "click intercettato da Finestra!!");
     }
     
     

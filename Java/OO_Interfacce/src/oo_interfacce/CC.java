@@ -9,6 +9,10 @@ package oo_interfacce;
  *
  * @author tss
  */
-public class CC implements B,D {
+public class CC implements B,D{
     
+    @Override
+    public void m2(){
+        System.out.println("m2 riscritto da C");
+    }
 }

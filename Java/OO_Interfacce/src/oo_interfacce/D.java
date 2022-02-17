@@ -10,7 +10,7 @@ package oo_interfacce;
  * @author tss
  */
 public interface D {
-     public default void m4(){
-         System.out.println("m4");
-     }
+    public default void m4(){
+        System.out.println("m4");
+    }
 }

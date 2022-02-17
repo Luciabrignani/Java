@@ -10,15 +10,10 @@ package gui;
  * @author tss
  */
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         Finestra f = new Finestra("test");
-        f.setEnabled(true);
-        
-        
+        f.setVisible(true);
     }
-    
 }
+    
+
