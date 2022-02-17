@@ -29,7 +29,7 @@ public class GestioneScuola {
     Alunno a1= new Alunno("rossi", "paolo");
     String oktel=genio.checkTel(" 0125-454545 ","+44");
     Alunno a2= new Alunno("rivera", "gianni","riv@riv.it",oktel);
-    
+    /*
     c1.insertAlunno(a1);
     c1.insertAlunno(a2);
     
@@ -37,6 +37,8 @@ public class GestioneScuola {
     Esame es= new Esame("guerrini",100,"java");
     Alunno esaminando = c1.getRegistro()[0];
     esaminando.setLibretto(es);
+    */
+    
     }
     
 }

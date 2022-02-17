@@ -6,6 +6,7 @@
 package com.mycompany.gestionescuola;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Corso {
     private LocalDate datainizio;
     private String link = "www.ciacformazione.it";
     // una struttura per caricare i possibili 30 alunni(registro)
-    private Alunno[] registro = new Alunno[30];
+    private ArrayList<Anagrafica> registro = new ArrayList<>();
     // elenco Alunni
 
     // costruttori
@@ -135,38 +136,36 @@ public class Corso {
         this.link = link;
     }
 
-    public Alunno[] getRegistro() {
-        return registro;
+    public ArrayList<Anagrafica> getRegistro() {
+        return new ArrayList<Anagrafica>(this.registro);
     }
 
-    public void setRegistro(Alunno[] registro) {
-        this.registro = registro;
-    }
-
-    void insertAlunno(Alunno alunno, int pos) {
-        registro[pos] = alunno;
-
-    }
-
-    void insertAlunno(Alunno alunno) {
-        int pos = 0;
-        for (int i = 0; i < registro.length; i++) {
-            if (registro[i] == null) {
-                pos = i;
-                break;
+    public boolean setRegistro(Anagrafica alunno) {
+        boolean ris = false;
+        int ida = alunno.getId_anagrafica();
+        if (registro.size() > 0) {
+            for (Anagrafica al : registro) {
+                if (al.getId_anagrafica() == ida) {
+                    return false;
+                }
             }
+            this.registro.add(alunno);
+            ris = true;
+        } else {
+            this.registro.add(alunno);
+            ris = true;
         }
-        registro[pos] = alunno;
+        return ris;
     }
 
     void stampaRegistro() {
 
-        for (int i = 0; i < registro.length; i++) {
-            if (registro[i] == null) {
+        for (int i = 0; i < registro.size(); i++) {
+            if (registro == null) {
                 break;
             } else {
                 System.out.print((i + 1));
-                registro[i].stampaInfo();
+                registro.get(i).stampaInfo();
             }
         }
 
@@ -194,19 +193,35 @@ public class Corso {
         ris += "\nData inizio: " + datainizio.toString();
         ris += "\nLink: " + link + "\n";
         return ris;
-    }/**
-     * ritorna un csv con i corsi
-     * testata nomecorso;durataore;descrizione;datainizio;link
-     * elenco dati separati da ; e fine linea
+    }
+
+    /**
+     * ritorna un csv con i corsi testata
+     * nomecorso;durataore;descrizione;datainizio;link elenco dati separati da ;
+     * e fine linea
+     *
      * @return String csv
      */
     String getCSV() {    // 
         String ris = "";
-        //ris += "nomecorso;durataore;descrizione;datainizio;link\n";
-        ris +=  nomecorso + ";" + durataore + ";" + descrizione 
-                + ";" + datainizio.toString() + ";" 
-                + link + "\n" 
-                ;
-          return ris;
+        //ris += "nomecorso;durataore;descrizione;datainizio;link;lista alunni;\n";
+        String lr = "";
+        for(Anagrafica al: registro){
+            lr+= al.getId_anagrafica()+ ",";
+        }
+        if(lr.length()>0)
+            lr= lr.substring(0, lr.length()-1);
+        ris += nomecorso + ";" + durataore + ";" + descrizione
+                + ";" + datainizio.toString() + ";"
+                + link + ";" + lr + "\n";
+        return ris;
+    }
+    
+    public boolean isAlunno (int id){
+        for(Anagrafica a: registro){
+            if(a.getId_anagrafica()==id)
+                return true;
+        }
+        return false;
     }
 }

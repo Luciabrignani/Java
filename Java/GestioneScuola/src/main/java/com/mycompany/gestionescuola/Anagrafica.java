@@ -63,6 +63,17 @@ public class Anagrafica {
                 + ";" + mail + "\n" ;
           return ris;
     }
+    
+    void stampaInfo() {
+
+        System.out.println("\n\n-------Scheda anagrafica------");
+        System.out.println("Nome : " + this.nome);
+        System.out.println("Cognome: " + this.cognome);
+        System.out.println("Mail: " + this.mail);
+        System.out.println("Id_anagrafica: " + this.id_anagrafica);
+        System.out.println("----------------------\n\n");
+
+    }
 
     
 }

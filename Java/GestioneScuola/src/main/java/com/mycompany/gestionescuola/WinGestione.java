@@ -21,19 +21,20 @@ import javax.swing.text.DateFormatter;
  */
 public class WinGestione extends javax.swing.JFrame {
 
-    static  ArrayList<Corso> listacorsi = new ArrayList<Corso>();
+    static ArrayList<Corso> listacorsi = new ArrayList<Corso>();
     static ArrayList<Anagrafica> listaAnagrafiche = new ArrayList<Anagrafica>();
-    int idcorso=-1;
+    int idcorso = -1;
+
     /**
      * Creates new form WinGestione
      */
     public WinGestione() {
         initComponents();
-        caricaDatiCorsi();
         caricaDatiAnagrafica();
+        caricaDatiCorsi();
         showCorsi();
         this.setLocationRelativeTo(null);
-        
+
     }
 
     /**
@@ -52,6 +53,11 @@ public class WinGestione extends javax.swing.JFrame {
         btnGestAnagrafica = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         lblTitolo.setFont(new java.awt.Font("Cantarell", 3, 22)); // NOI18N
         lblTitolo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -107,17 +113,22 @@ public class WinGestione extends javax.swing.JFrame {
 
     private void btnGestionecorsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionecorsiActionPerformed
         // TODO add your handling code here:
-        new winDialogCorsi(this,true).setVisible(true);
-        
+        new winDialogCorsi(this, true).setVisible(true);
+
     }//GEN-LAST:event_btnGestionecorsiActionPerformed
 
     private void btnGestAnagraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestAnagraficaActionPerformed
         // TODO add your handling code here:
         // apertura finestra dialogo per caricamneto e gestione anagrafica 
-        new WinDialogAnagrafica(this,true).setVisible(true);
-        
-        
+        new WinDialogAnagrafica(this, true).setVisible(true);
+
+
     }//GEN-LAST:event_btnGestAnagraficaActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        showCorsi();
+    }//GEN-LAST:event_formWindowActivated
     /**
      * aggiorna lista corsi in display
      */
@@ -129,14 +140,13 @@ public class WinGestione extends javax.swing.JFrame {
         for (int i = 0; i < listacorsi.size(); i++) {
             // recupero un corso per volta
             Corso c = listacorsi.get(i);
-            String info = "["+ (i+1) + "] "  + c.getInfo();
+            String info = "[" + (i + 1) + "] " + c.getInfo();
             testoDisplay = info + testoDisplay;
         }
         //visualizzo i corsi in display
         list.setText(testoDisplay);
     }
 
- 
     private void caricaDatiCorsi() {
         try {
             //aprire il file /tss/sScuola/dati.csv
@@ -148,38 +158,52 @@ public class WinGestione extends javax.swing.JFrame {
             while (lettore.hasNextLine()) {
                 String riga = lettore.nextLine();
                 if (n > 1) {
-                    String[] dati=riga.split(";");
+                    String[] dati = riga.split(";");
                     //dati[0] nomecorso dati[1] durata etc etc
                     String nc = dati[0];
-                    int durata= Integer.parseInt(dati[2]);
-                    String des= dati[1];
+                    int durata = Integer.parseInt(dati[1]);
+                    String des = dati[2];
                     String d[] = dati[3].split("-");
-                    int y= Integer.parseInt(d[0]);
-                    int m= Integer.parseInt(d[1]);
-                    int g= Integer.parseInt(d[2]);
-                    String link= dati[4]; 
-                    Corso c= new Corso(nc, durata, y, m, g);
+                    int y = Integer.parseInt(d[0]);
+                    int m = Integer.parseInt(d[1]);
+                    int g = Integer.parseInt(d[2]);
+                    String link = "";
+                    if (dati.length >= 5) {
+                        link = dati[4];
+                    }
+                    ////
+                    Corso c = new Corso(nc, durata, y, m, g);
+                    if (dati.length >= 6) { //se lungo 6 ho gli iscritti
+                        String registro = dati[5]; // "1,4,7"
+                        String[] regID = registro.split(","); //array ["1","4"...]
+                        for (String sid : regID) {
+                            //indice anagrafica
+                            int id = Integer.parseInt(sid); // id= 1 id=4...
+                            Anagrafica al = getAlunnoById(id);
+                            c.setRegistro(al);
+                        }
+                    }
                     c.setDescrizione(des);
                     c.setLink(link);
                     //il corso e' pronto lo aggiungiamo alla lista
                     listacorsi.add(c);
                 }
                 n++;
-                //la riga la taglio in tanti pezzi col ; in un array
-                // elmento per lelemnto dell'array lo imposto ad un corso
-                //il corso lo aggiungo alla lista 
             }
+            
+            //la riga la taglio in tanti pezzi col ; in un array
+            // elmento per lelemnto dell'array lo imposto ad un corso
+            //il corso lo aggiungo alla lista 
+
             //e cosi' via per le altre righe del file'
             //alla fine chiudo il file se no si blocca
-
         } catch (Exception e) {
 
         }
 
     }
- 
-    
-     private void caricaDatiAnagrafica() {
+
+    private void caricaDatiAnagrafica() {
         try {
             //aprire il file /tss/sScuola/dati.csv
             File filecsv = new File("/home/tss/Scuola/Anagrafica.csv");
@@ -190,14 +214,14 @@ public class WinGestione extends javax.swing.JFrame {
             while (lettore.hasNextLine()) {
                 String riga = lettore.nextLine();
                 if (n > 1) {
-                    String[] dati=riga.split(";");
+                    String[] dati = riga.split(";");
                     //dati[0] nomecorso dati[1] durata etc etc
                     int id = Integer.parseInt(dati[0]);
-                    String cog= dati[1];
+                    String cog = dati[1];
                     String nom = dati[2];
-                    String mail= dati[3];
-                    Anagrafica a= new Anagrafica(id, cog, nom, mail);
-                    
+                    String mail = dati[3];
+                    Anagrafica a = new Anagrafica(id, cog, nom, mail);
+
                     listaAnagrafiche.add(a);
                 }
                 n++;
@@ -213,15 +237,13 @@ public class WinGestione extends javax.swing.JFrame {
         }
 
     }
-    
-    public static int getNewIdAnagrafica(){
+
+    public static int getNewIdAnagrafica() {
         int newId = 1;
-        if(listaAnagrafiche.size()>0){
-           newId= listaAnagrafiche.get(listaAnagrafiche.size()-1).getId_anagrafica()+1; 
+        if (listaAnagrafiche.size() > 0) {
+            newId = listaAnagrafiche.get(listaAnagrafiche.size() - 1).getId_anagrafica() + 1;
         }
-        
-        
-        
+
         return newId;
     }
 
@@ -239,16 +261,21 @@ public class WinGestione extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WinGestione.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WinGestione.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WinGestione.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WinGestione.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WinGestione.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WinGestione.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WinGestione.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WinGestione.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -267,4 +294,14 @@ public class WinGestione extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitolo;
     private javax.swing.JTextPane list;
     // End of variables declaration//GEN-END:variables
+
+    public static Anagrafica getAlunnoById(int id) {
+        for (Anagrafica a : listaAnagrafiche) {
+            if (id == a.getId_anagrafica()) {
+                return a;
+            }
+        }
+        return null;
+
+    }
 }

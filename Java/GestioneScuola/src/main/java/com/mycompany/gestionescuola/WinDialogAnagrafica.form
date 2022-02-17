@@ -172,9 +172,6 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="lblID">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="id1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txNome">
     </Component>

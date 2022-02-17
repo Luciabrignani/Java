@@ -22,7 +22,7 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         refreshLista();
-                
+
     }
 
     /**
@@ -74,8 +74,6 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(lstAnagrafica);
-
-        lblID.setText("id1");
 
         lblcognome.setText("Cognome:");
 
@@ -197,28 +195,27 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
-       pulisci();
+        pulisci();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnConfermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfermaActionPerformed
         // TODO add your handling code here:
-        String n= txNome.getText();
-        String c= txCognome.getText();
-        String m= txMail.getText();
-        if(lblID.getText().equals("")) { //caso no id e quindi nuovo 
-        int id= WinGestione.getNewIdAnagrafica();
-        Anagrafica a= new Anagrafica(id, c, n, m);
-        WinGestione.listaAnagrafiche.add(a);
-        
-        }
-        else{ //id presente e quindi modifica 
-             int id= Integer.parseInt(lblID.getText());
-             Anagrafica a= new Anagrafica(id, c, n, m);
-             //cerco l'indice dell'elemento selezionato 
-             //in lista CHE STO MODIFICANDO 
-             int index= lstAnagrafica.getSelectedIndex();
-             WinGestione.listaAnagrafiche.set(index,a);
-            
+        String n = txNome.getText();
+        String c = txCognome.getText();
+        String m = txMail.getText();
+        if (lblID.getText().equals("")) { //caso no id e quindi nuovo 
+            int id = WinGestione.getNewIdAnagrafica();
+            Anagrafica a = new Anagrafica(id, c, n, m);
+            WinGestione.listaAnagrafiche.add(a);
+
+        } else { //id presente e quindi modifica 
+            int id = Integer.parseInt(lblID.getText());
+            Anagrafica a = new Anagrafica(id, c, n, m);
+            //cerco l'indice dell'elemento selezionato 
+            //in lista CHE STO MODIFICANDO 
+            int index = lstAnagrafica.getSelectedIndex();
+            WinGestione.listaAnagrafiche.set(index, a);
+
         }
         refreshLista();
         pulisci();
@@ -228,11 +225,11 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
     private void lstAnagraficaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAnagraficaValueChanged
         // TODO add your handling code here:
         int index = lstAnagrafica.getSelectedIndex();
-        if(index==-1){//niente di selezionato 
+        if (index == -1) {//niente di selezionato 
             pulisci();
             return;
         }
-        Anagrafica a= WinGestione.listaAnagrafiche.get(index);
+        Anagrafica a = WinGestione.listaAnagrafiche.get(index);
         lblID.setText("" + a.getId_anagrafica());
         txCognome.setText(a.getCognome());
         txNome.setText(a.getNome());
@@ -241,15 +238,29 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         // TODO add your handling code here:
-        int index= lstAnagrafica.getSelectedIndex();
-        if(index== -1) return;
-        
-        
-        
-        int input= JOptionPane.showConfirmDialog(null, "confermi l'eliminazione?", "Elimina Anagrafica", JOptionPane.CANCEL_OPTION);
-        if(input==0){
-            WinGestione.listaAnagrafiche.remove(index);
-            
+        int index = lstAnagrafica.getSelectedIndex();
+        if (index == -1) {
+            return;
+        }
+        int id = WinGestione.listaAnagrafiche.get(index).getId_anagrafica();
+        boolean ok = true;
+        for (Corso c : WinGestione.listacorsi) {
+            if (c.isAlunno(id) == true) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) {
+            int input = JOptionPane.showConfirmDialog(null, "confermi l'eliminazione?", "Elimina Anagrafica", JOptionPane.CANCEL_OPTION);
+            if (input == 0) {
+                WinGestione.listaAnagrafiche.remove(index);
+                salvaAnagraficaCSV();
+                refreshLista();
+            }
+
+        } 
+        else {
+            JOptionPane.showMessageDialog(null, "Alunno iscritto al corso, impossibile cancellare!");
         }
     }//GEN-LAST:event_btnDelActionPerformed
 
@@ -319,19 +330,18 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
         txMail.setText("");
         lblID.setText("");
     }
-    
-    
-     private void refreshLista() {
+
+    private void refreshLista() {
         DefaultListModel model = new DefaultListModel();
         for (int i = 0; i < WinGestione.listaAnagrafiche.size(); i++) {
-            Anagrafica a= WinGestione.listaAnagrafiche.get(i);
-            String item = a.getId_anagrafica()+ ")" + a.getCognome() + " " + a.getNome();
+            Anagrafica a = WinGestione.listaAnagrafiche.get(i);
+            String item = a.getId_anagrafica() + ")" + a.getCognome() + " " + a.getNome();
             model.addElement(item);
         }
         lstAnagrafica.setModel(model);
     }
-     
-     private void salvaAnagraficaCSV() {
+
+    private void salvaAnagraficaCSV() {
         // recupero un corso per volta
         // estraggo info tipo string
         // aggiungo info a un testo generico che poi setto in display
@@ -341,7 +351,7 @@ public class WinDialogAnagrafica extends javax.swing.JDialog {
             // recupero un corso per volta
             Anagrafica a = WinGestione.listaAnagrafiche.get(i);
             String riga = a.getCSV();
-            dati += riga; 
+            dati += riga;
         }
         String txfile = intestazione + dati;
         try {

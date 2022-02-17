@@ -15,7 +15,7 @@ import java.util.Collections;
  */
 public class Main2 {
     public static void main(String[] args) {
-        List<Anagrafica> elenco = new ArrayList<>();
+        List<Anafgrafica> elenco = new ArrayList<>();
         elenco.add(new Anagrafica("mario","rossi"));
         elenco.add(new Anagrafica("marco", "bianchi"));
         
