@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DateFormatter;
 
@@ -108,6 +109,11 @@ public class WinGestione extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblCorsi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCorsiMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblCorsi);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,6 +180,11 @@ public class WinGestione extends javax.swing.JFrame {
         showCorsi();
         refreshTable();
     }//GEN-LAST:event_formWindowActivated
+
+    private void tblCorsiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCorsiMouseClicked
+        int idx= tblCorsi.getSelectedRow();
+        JOptionPane.showMessageDialog(null,listacorsi.get(idx).getInfo());
+    }//GEN-LAST:event_tblCorsiMouseClicked
     /**
      * aggiorna lista corsi in display
      */
@@ -193,6 +204,7 @@ public class WinGestione extends javax.swing.JFrame {
             rowData[2] = c.getDurataore();
             rowData[3]= c.getRegistro().size();
             model.addRow(rowData);
+            
            
             
         }
