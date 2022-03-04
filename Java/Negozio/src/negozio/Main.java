@@ -31,6 +31,7 @@ public class Main {
 
         //System.out.println(catalogo.GetArticoliSottoPrezzo(100).toString());
         
+        Catalogo catMobile = new Catalogo();
         
         ProvaMobile mobile = new ProvaMobile();
         
@@ -38,11 +39,17 @@ public class Main {
         Mobile d = new Mobile("scrivania", 120, 50, 45, 60);
         Mobile e = new Mobile("mobile antico", 1200, 20, 30, 45);
         Mobile f = new Mobile("tavolo", 95, 70, 60, 45);
-        mobile.aggiungiMobile(d);
-        mobile.aggiungiMobile(e);
-        mobile.aggiungiMobile(f);
+       
         
-        System.out.println(mobile.mobili.toString());
+        catMobile.aggiungiArticolo(d);
+        catMobile.aggiungiArticolo(e);
+        catMobile.aggiungiArticolo(f);
+        
+        
+        
+        mobile.scegliMobile(catMobile.listaarticoli, 100, 10, 100, 200);
+        
+        System.out.println(catMobile.listaarticoli.toString());
         
 
     }
