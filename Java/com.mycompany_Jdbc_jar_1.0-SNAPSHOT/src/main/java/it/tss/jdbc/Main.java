@@ -31,9 +31,9 @@ public class Main {
         em.createQuery("select e from Corso e ", Corso.class)
                 .getResultList()
                 .forEach(System.out::println);
-        
+        /*
         Corso tosave = new Corso();
-        tosave.setTitolo("jakarta EE");
+        tosave.setTitolo("jakarta EE edizione1");
         tosave.setDatainizio(LocalDate.now());
         tosave.setCosto(BigDecimal.valueOf(120,50));
         tosave.setData(LocalDateTime.now());
@@ -45,5 +45,10 @@ public class Main {
         
         
         em.getTransaction().commit();
+        */
+        
+        em.createQuery("select e from Iscrizione e order by e.anagrafica.nome", Iscrizione.class)
+                .getResultList()
+                .forEach(System.out::println);
     }
 }

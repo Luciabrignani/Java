@@ -34,13 +34,13 @@ public class Corso implements Serializable {
     @Column(name = "titolocorso")
     private String titolo;
 
-    @Column(name = "descrizionecorso")
+    @Column(name = "descrizione")
     private String descrizione;
 
     @Column(name = "datainizio")
     private LocalDate datainizio;
 
-    @Column(name = "duratacorso")
+    @Column(name = "durata")
     private Integer durata;
 
     @Column(name = "costocorso", precision = 2, scale = 6)

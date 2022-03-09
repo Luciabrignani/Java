@@ -1,2 +1,5 @@
-/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/Main.java
-/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/Corso.java
+/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/it/tss/jdbc/Anagrafica.java
+/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/it/tss/jdbc/Provincia.java
+/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/it/tss/jdbc/Main.java
+/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/it/tss/jdbc/Iscrizione.java
+/home/tss/Lucia/Java/Java/com.mycompany_Jdbc_jar_1.0-SNAPSHOT/src/main/java/it/tss/jdbc/Corso.java
