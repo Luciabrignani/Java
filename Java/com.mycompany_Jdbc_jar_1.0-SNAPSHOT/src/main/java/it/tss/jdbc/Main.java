@@ -1,3 +1,5 @@
+package it.tss.jdbc;
+
 
 
 import java.math.BigDecimal;
@@ -34,7 +36,7 @@ public class Main {
         tosave.setTitolo("jakarta EE");
         tosave.setDatainizio(LocalDate.now());
         tosave.setCosto(BigDecimal.valueOf(120,50));
-        tosave.setCreatoiIl(LocalDateTime.now());
+        tosave.setData(LocalDateTime.now());
         
         em.getTransaction().begin();
         
