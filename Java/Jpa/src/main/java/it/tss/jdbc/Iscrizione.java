@@ -1,11 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.tss.jdbc;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -16,30 +16,44 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
  *
  * @author tss
  */
+@NamedQueries({
+
+    @NamedQuery(name = Iscrizione.FIND_BY_CORSO, 
+            query = "select e from Iscrizione e where e.corso.titolo like :titolo")
+})
+
 @Entity
-@Table(name= "t_iscrizioni")
+@Table(name = "t_iscrizioni")
 public class Iscrizione implements Serializable {
+    
+    public static final String FIND_BY_CORSO = "Iscrizione.findByCorso";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "id_iscrizione")
+    @Column(name = "id_iscrizione")
     private Long id;
-    @Column(name="dataiscrizione")
-    private LocalDateTime data;
+    @Column(name = "dataiscrizione")
+    private LocalDateTime il;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_anagrafica")
     private Anagrafica anagrafica;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name= "id_corso")
+    @JoinColumn(name = "id_corso")
     private Corso corso;
 
+    /*
+    getter setter
+    */
     public Long getId() {
         return id;
     }
@@ -48,12 +62,12 @@ public class Iscrizione implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getIl() {
+        return il;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setIl(LocalDateTime il) {
+        this.il = il;
     }
 
     public Anagrafica getAnagrafica() {
@@ -74,8 +88,8 @@ public class Iscrizione implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -91,16 +105,14 @@ public class Iscrizione implements Serializable {
             return false;
         }
         final Iscrizione other = (Iscrizione) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "Iscrizione{" + "id=" + id + ", data=" + data + ", anagrafica=" + anagrafica + ", corso=" + corso + '}';
+        return "Iscrizione{" + "id=" + id + ", il=" + il + ", anagrafica=" + anagrafica + ", corso=" + corso + '}';
     }
+    
     
     
 }

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.tss.jdbc;
 
@@ -27,20 +26,24 @@ public class Anagrafica implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_anagrafica;
+    @Column(name = "id_anagrafica")
+    private Long id;
     private String cognome;
     private String nome;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "provincia")
-    private Provincia provincia;
+    @JoinColumn(name = "pv")
+    private Provincia pv;
 
-    public Long getId_anagrafica() {
-        return id_anagrafica;
+    /*
+    getter setter
+     */
+    public Long getId() {
+        return id;
     }
 
-    public void setId_anagrafica(Long id_anagrafica) {
-        this.id_anagrafica = id_anagrafica;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCognome() {
@@ -59,18 +62,18 @@ public class Anagrafica implements Serializable {
         this.nome = nome;
     }
 
-    public Provincia getProvincia() {
-        return provincia;
+    public Provincia getPv() {
+        return pv;
     }
 
-    public void setProvincia(Provincia provincia) {
-        this.provincia = provincia;
+    public void setPv(Provincia pv) {
+        this.pv = pv;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id_anagrafica);
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -86,15 +89,12 @@ public class Anagrafica implements Serializable {
             return false;
         }
         final Anagrafica other = (Anagrafica) obj;
-        if (!Objects.equals(this.id_anagrafica, other.id_anagrafica)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "Anagrafica{" + "id_anagrafica=" + id_anagrafica + ", cognome=" + cognome + ", nome=" + nome + ", provincia=" + provincia + '}';
+        return "Anagrafica{" + "id=" + id + ", cognome=" + cognome + ", nome=" + nome + '}';
     }
 
 }
