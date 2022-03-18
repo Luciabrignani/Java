@@ -1,0 +1,4 @@
+it/tss/jee/start/entity/Person.class
+com/mycompany/jee/start/resources/PeopleResources.class
+com/mycompany/jee/start/resources/Ping.class
+com/mycompany/jee/start/resources/ConfigurazioneRest.class
