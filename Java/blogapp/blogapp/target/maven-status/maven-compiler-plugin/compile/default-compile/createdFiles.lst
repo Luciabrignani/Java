@@ -1,0 +1,9 @@
+it/tss/blogapp/entity/Post.class
+it/tss/blogapp/entity/Comment.class
+it/tss/blogapp/entity/Tag.class
+airhacks/service/ping/boundary/PingResource.class
+it/tss/blogapp/entity/BaseEntity.class
+it/tss/blogapp/boundary/UsersResources.class
+it/tss/blogapp/entity/User.class
+it/tss/blogapp/control/UserStore.class
+airhacks/service/JAXRSConfiguration.class

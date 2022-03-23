@@ -6,6 +6,7 @@ package it.tss.blogapp.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,10 +25,12 @@ import javax.validation.constraints.Size;
 @Table(name = "user")
 public class User extends BaseEntity {
     
+    @JsonbProperty(value = "first_name")
     @NotBlank
     @Column(name = "first_name", nullable = false)
     private String firstname;
     
+    @JsonbProperty(value = "last_name")
     @NotBlank
     @Column(name = "last_name", nullable = false)
     private String lastname;

@@ -19,7 +19,7 @@ public class NewEmptyJUnitTest {
     }
    
     @BeforeAll
-    public void setUp1() {
+    static public void setUp1() {
         System.out.println("Test Inizializzato");
     }
    
