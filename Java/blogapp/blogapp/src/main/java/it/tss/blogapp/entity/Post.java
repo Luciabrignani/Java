@@ -35,6 +35,7 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private String body;
 
+    @JsonbTransient
     @ManyToMany
     @JoinTable(name = "post_tag" , 
             joinColumns = @JoinColumn(name = "post_id"),

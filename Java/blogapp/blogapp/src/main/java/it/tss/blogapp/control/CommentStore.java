@@ -5,6 +5,7 @@
 package it.tss.blogapp.control;
 
 import it.tss.blogapp.entity.Comment;
+import it.tss.blogapp.entity.Post;
 import java.util.List;
 import java.util.Optional;
 import javax.enterprise.context.RequestScoped;
@@ -45,5 +46,11 @@ public class CommentStore {
     public Comment update(Comment entity){
         Comment update = em.merge(entity);
         return update;
+    }
+
+    public List<Comment> byPost(Long postId) {
+        return em.createQuery("select e from Comment e where e.post.id= :postId", Comment.class)
+                .setParameter("postId", postId)
+                .getResultList();
     }
 }

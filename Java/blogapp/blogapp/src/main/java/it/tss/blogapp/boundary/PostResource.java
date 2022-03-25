@@ -5,6 +5,7 @@
 package it.tss.blogapp.boundary;
 
 import it.tss.blogapp.control.PostStore;
+import it.tss.blogapp.control.CommentStore;
 import it.tss.blogapp.entity.Post;
 import java.util.List;
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import it.tss.blogapp.entity.Comment;
 
 /**
  *
@@ -29,7 +31,10 @@ public class PostResource {
 
     @Inject
     private PostStore post;
-
+    
+    @Inject
+    private CommentStore comment;
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Post> all() {
@@ -57,8 +62,23 @@ public class PostResource {
     }
 
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void update(@Valid Post entity) {
         post.update(entity);
+    }
+
+    @GET
+    @Path("{id}/comments")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Comment> comment (@PathParam("id") Long id){
+    return comment.byPost(id);   
+    }
+    
+    @POST
+    @Path("{id}/comments")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Post> createComments(@PathParam("id") Long id, @Valid Post entity) {
+        return post.all();
     }
 }
