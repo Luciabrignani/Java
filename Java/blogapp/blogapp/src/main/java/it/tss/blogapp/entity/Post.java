@@ -4,15 +4,11 @@
  */
 package it.tss.blogapp.entity;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Set;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -25,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "post")
-public class Post extends BaseEntity{
+public class Post extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime created = LocalDateTime.now();
@@ -40,16 +36,21 @@ public class Post extends BaseEntity{
     private String body;
 
     @ManyToMany
-    @JoinTable(name = "post_tag",
+    @JoinTable(name = "post_tag" , 
             joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private Set<Tag> tags;
+
+    
+    /*
+    getter setter
+    */
 
     public LocalDateTime getCreated() {
         return created;
     }
-
+    @JsonbTransient
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
@@ -57,7 +58,7 @@ public class Post extends BaseEntity{
     public User getAuthor() {
         return author;
     }
-
+    @JsonbTransient
     public void setAuthor(User author) {
         this.author = author;
     }
@@ -81,7 +82,8 @@ public class Post extends BaseEntity{
     public Set<Tag> getTags() {
         return tags;
     }
-
+    
+    @JsonbTransient
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -90,5 +92,6 @@ public class Post extends BaseEntity{
     public String toString() {
         return "Post{" + "id=" + id + ", created=" + created + ", author=" + author + ", title=" + title + ", body=" + body + ", tags=" + tags + '}';
     }
-
+    
+    
 }

@@ -4,13 +4,8 @@
  */
 package it.tss.blogapp.entity;
 
-import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,11 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "comment")
-public class Comment extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Comment extends BaseEntity{
 
     @ManyToOne(optional = false)
     private User author;
@@ -34,14 +25,10 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(optional = false)
     private Post post;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    
+    /*
+    getter setter
+    */
 
     public User getAuthor() {
         return author;
@@ -68,30 +55,9 @@ public class Comment extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Comment other = (Comment) obj;
-        return Objects.equals(this.id, other.id);
-    }
-
-    @Override
     public String toString() {
         return "Comment{" + "id=" + id + ", author=" + author + ", msg=" + msg + ", post=" + post + '}';
     }
-
+    
+    
 }

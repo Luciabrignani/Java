@@ -1,18 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package it.tss.blogapp.entity;
 
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.AssertTrue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 /**
  *
  * @author tss
@@ -20,49 +21,84 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTest {
 
     private Validator validator;
-    Set<ConstraintViolation<User>> constraintviolation;
-
-    public UserTest() {
-
-    }
-
+    Set<ConstraintViolation<User>> constraintViolations;
+    
     @BeforeEach
-    public void init() {
+    public void init(){
         this.validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
-
+    
     @Test
     public void testNotValid() {
+
         User u = new User();
-        u.setId(1l);
-        constraintviolation = validator.validate(u);
-        constraintviolation.forEach(System.out::println);
-        Assertions.assertTrue(constraintviolation.size() == 4);
+        
+        //firstname
+        u.setFirstName("");
+
+        constraintViolations
+                = validator.validate(u);
+
+        
+        boolean anyMatch = constraintViolations.stream()
+                .anyMatch(v -> v.getPropertyPath().toString()
+                        .equals("firstName"));
+        
+        Assertions.assertTrue(anyMatch);
+        
+        //lastname
+        u.setLastName("   ");
+        constraintViolations
+                = validator.validate(u);
+        
+        anyMatch = constraintViolations.stream()
+                .anyMatch(v -> v.getPropertyPath().toString()
+                        .equals("lastName"));
+                
+        Assertions.assertTrue(anyMatch);
+        
+
+        //email
+        u.setLastName("xx.hotmail.it");
+        constraintViolations
+                = validator.validate(u);
+        
+        anyMatch = constraintViolations.stream()
+                .anyMatch(v -> v.getPropertyPath().toString()
+                        .equals("email"));
+                
+        Assertions.assertTrue(anyMatch);
+        
+        //password
+        u.setPwd("123");
+        constraintViolations
+                = validator.validate(u);
+        
+        anyMatch = constraintViolations.stream()
+                .anyMatch(v -> v.getPropertyPath().toString()
+                        .equals("pwd"));
+                
+        Assertions.assertTrue(anyMatch);
     }
-
-    public void testValid() {
+    
+    @Test
+    public void testValid(){
         User user = new User();
-
-        user.setFirstname("mario");
-
-        Assertions.assertTrue(user.getFirstname().equals("mario"));
-
-        user.setLastname("rossi");
-
-        Assertions.assertTrue(user.getLastname().equals("rossi"));
-
-        user.setEmail("rossi@hotmail.com");
-
-        Assertions.assertTrue(user.getEmail().equals("rossi@hotmail.com"));
-
+        user.setFirstName("mario");
+        Assertions.assertTrue(user.getFirstName()!= null && user.getFirstName().equals("mario"));
+        
+        user.setLastName("rossi");
+        Assertions.assertTrue(user.getLastName()!= null && user.getLastName().equals("rossi"));
+        
+        user.setEmail("rossi@hotmail.it");
+        Assertions.assertTrue(user.getEmail()!= null && user.getEmail().equals("rossi@hotmail.it"));
+        
         user.setPwd("12345");
+        Assertions.assertTrue(user.getPwd()!= null && user.getPwd().equals("12345"));
+        
+        constraintViolations = validator.validate(user);
+        
+        Assertions.assertTrue(constraintViolations.isEmpty());
 
-        Assertions.assertTrue(user.getPwd().equals("12345"));
-
-        constraintviolation = validator.validate(user);
-
-        Assertions.assertTrue(constraintviolation.isEmpty());
-
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> user.getError());
     }
 }

@@ -4,18 +4,14 @@
  */
 package it.tss.blogapp.entity;
 
-import java.io.Serializable;
-import java.util.Objects;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import javax.ws.rs.NotSupportedException;
 
 /**
  *
@@ -24,16 +20,16 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity {
-    
+
     @JsonbProperty(value = "first_name")
     @NotBlank
     @Column(name = "first_name", nullable = false)
-    private String firstname;
-    
+    private String firstName;
+
     @JsonbProperty(value = "last_name")
     @NotBlank
     @Column(name = "last_name", nullable = false)
-    private String lastname;
+    private String lastName;
 
     @NotBlank
     @Email
@@ -41,24 +37,27 @@ public class User extends BaseEntity {
     private String email;
 
     @NotBlank
-    @Size(min=4)
+    @Size(min = 4)
     @Column(nullable = false)
     private String pwd;
 
-    public String getFirstname() {
-        return firstname;
+    /*
+    getter setter
+     */
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -79,11 +78,7 @@ public class User extends BaseEntity {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", pwd=" + pwd + '}';
-    }
-
-    public void getError() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "User{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", pwd=" + pwd + '}';
     }
 
 }

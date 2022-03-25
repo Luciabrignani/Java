@@ -4,12 +4,8 @@
  */
 package it.tss.blogapp.entity;
 
-import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -18,10 +14,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tag")
-public class Tag  extends BaseEntity {
+public class Tag extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
 
+    /*
+    getter setter
+     */
     public String getName() {
         return name;
     }
