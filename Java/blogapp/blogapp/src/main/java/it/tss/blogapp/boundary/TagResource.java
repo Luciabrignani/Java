@@ -26,7 +26,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author tss
  */
-@Path("/tag")
+@Path("/tags")
 public class TagResource {
 
     @Inject
