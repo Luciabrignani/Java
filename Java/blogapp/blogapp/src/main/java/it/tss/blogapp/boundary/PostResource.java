@@ -26,59 +26,90 @@ import it.tss.blogapp.entity.Comment;
  *
  * @author tss
  */
-@Path("/post")
-public class PostResource {
+import it.tss.blogapp.entity.Comment;
+import it.tss.blogapp.entity.Post;
+import it.tss.blogapp.entity.Tag;
+import it.tss.blogapp.entity.User;
+import java.util.List;
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-    @Inject
-    private PostStore post;
+/**
+ *
+ * @author tss
+ */
+@Path("/posts")
+public class PostResource {
     
     @Inject
-    private CommentStore comment;
+    private PostStore storepost;
     
+    @Inject
+    private CommentStore commentstore;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Post> all() {
-        return post.all();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void create(@Valid Post entity) {
-        post.save(entity);
+        throw new UnsupportedOperationException();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Post find(@PathParam("id") Long id) {
-        return post.find(id).orElseThrow(() -> new NotFoundException("Post non trovato. id=" + id));
+        throw new UnsupportedOperationException();
+    }
+
+    @PUT
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Post update(@PathParam("id") Long id, @Valid Post entity) {
+        throw new UnsupportedOperationException();
     }
 
     @DELETE
     @Path("{id}")
-    public void delete(@PathParam("id") Long id) {
-        Post found = post.find(id).orElseThrow(() -> new NotFoundException("Post non trovato. id=" + id));
-        post.delete(found.getId());
-    }
-
-    @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void update(@Valid Post entity) {
-        post.update(entity);
+    public void delete(@PathParam("id") Long id) {
+        throw new UnsupportedOperationException();
     }
 
     @GET
     @Path("{id}/comments")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Comment> comment (@PathParam("id") Long id){
-    return comment.byPost(id);   
+    public List<Comment> comments(@PathParam("id") Long id) {
+       return commentstore.findByPost(id) ;
     }
-    
+
     @POST
     @Path("{id}/comments")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Post> createComments(@PathParam("id") Long id, @Valid Post entity) {
-        return post.all();
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createComment(@PathParam("id") Long id, @Valid Comment entity) {
+       commentstore.save(entity);
     }
+
+    @GET
+    @Path("{id}/tags")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Tag> tags() {
+        throw new UnsupportedOperationException();
+    }
+
+    @POST
+    @Path("{id}/tags")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createTag(@PathParam("id") Long id, @Valid Tag entity) {
+        throw new UnsupportedOperationException();
+    }
+
 }

@@ -6,9 +6,11 @@ it/tss/blogapp/entity/BaseEntity.class
 it/tss/blogapp/entity/User.class
 it/tss/blogapp/control/CommentStore.class
 it/tss/blogapp/entity/Post.class
+it/tss/blogapp/adapter/PostTypeAdapter.class
 it/tss/blogapp/entity/Comment.class
 it/tss/blogapp/boundary/UsersResource.class
 it/tss/blogapp/control/TagStore.class
+it/tss/blogapp/adapter/UserTypeAdapter.class
 it/tss/blogapp/boundary/CommentResource.class
 it/tss/blogapp/boundary/PostResource.class
 it/tss/blogapp/PingResource.class

@@ -48,13 +48,6 @@ public class UsersResource {
         store.save(entity);
     }
 
-    @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public User find(@PathParam("id") Long id) {
-        return store.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
-    }
-
     @DELETE
     @Path("{id}")
     public void delete(@PathParam("id") Long id) {
@@ -67,6 +60,17 @@ public class UsersResource {
     public void update(@Valid User entity) {
         store.update(entity);
     }
+    
+    
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User find(@PathParam("id") Long id) {
+        return store.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+    }
+
+    
+    //gestione posts
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -84,4 +88,6 @@ public class UsersResource {
         postStore.save(entity);
     
     }
+    
+    
 }

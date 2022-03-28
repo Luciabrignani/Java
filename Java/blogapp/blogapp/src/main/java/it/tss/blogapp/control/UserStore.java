@@ -35,8 +35,7 @@ public class UserStore {
     }
     
     public User save(User entity){
-        User saved = em.merge(entity);
-        return saved;
+        return em.merge(entity);
     }
 
     public void delete(Long id) {
@@ -44,7 +43,6 @@ public class UserStore {
     }
     
     public User update(User entity){
-        User update = em.merge(entity);
-        return update;
+        return em.merge(entity);
     }
 }

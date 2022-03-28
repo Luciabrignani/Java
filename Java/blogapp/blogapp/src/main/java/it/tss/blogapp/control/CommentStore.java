@@ -28,6 +28,13 @@ public class CommentStore {
         return em.createQuery("select e from Comment e")
                 .getResultList();
     }
+    
+    public List<Comment> findByPost(Long id) {
+        return em.createQuery("select e from Comment e where e.post.id= :id", Comment.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
 
     public Optional<Comment> find(Long id) {
         Comment found = em.find(Comment.class, id);

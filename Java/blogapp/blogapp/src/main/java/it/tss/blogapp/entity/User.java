@@ -4,6 +4,9 @@
  */
 package it.tss.blogapp.entity;
 
+import it.tss.blogapp.boundary.UsersResource;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import javax.ws.rs.NotSupportedException;
+import javax.ws.rs.core.UriBuilder;
 
 /**
  *
@@ -40,6 +44,16 @@ public class User extends BaseEntity {
     @Size(min = 4)
     @Column(nullable = false)
     private String pwd;
+
+    public JsonObject toJsonSlice() {
+
+        return Json.createObjectBuilder()
+                .add("id", this.id)
+                .add("link", UriBuilder.fromResource(UsersResource.class)
+                        .path(UsersResource.class, "find")
+                        .build(this.id).toString())
+                .build();
+    }
 
     /*
     getter setter
