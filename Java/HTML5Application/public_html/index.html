@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/script.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+        <style>
+            /* per tutti margini bordi e altro */
+            * {
+
+                border-width: 1px;
+                border-color: black;
+                border-style:  solid;
+
+
+            }
+        </style>
+    </head>
+    <body >
+        <header>
+            <h1>header testata Londra</h1>
+        </header>
+        <div id="main">
+            <div class="divgallery">
+                <div class="item-gallery">
+                    <img src="img/london.jpg">
+                </div>
+                <div class="item-gallery">
+                    <img src="img/paris.jpg">
+                </div>
+                <div class="item-gallery">
+                    <img src="img/firenze.jpg">
+                </div>
+
+            </div>
+            <div id="contatto">
+                <form method="get" id= "fcontatti" action="insert">
+                    <input id="tmail" required name="mail" placeholder="inserire indirizzo e-mail"> <br>
+                    <input id="tpwd" type="password" name="pwd" placeholder="ins, password"> <br>
+                    <input id="tnominativo" name="nome" placeholder="inserire nominativo"> <br>
+                    <input id="tanno" min="1990" max="3000" type="number" name="anno" placeholder="ins, anno"> <br>
+                    <input id="tanno" min="1990" max="3000" type="range" name="anno" placeholder="ins, anno"> <br>
+                    <input type="date" name="data" id="data"> <br>
+                    sesso checkbox: <br> maschio <input type="checkbox" name="sex" value="maschio"><br>
+                    femmina <input type="checkbox" name="sex" value="femmina"><br>
+                    sesso: <br> maschio <input type="radio" name="sex" value="maschio"><br>
+                    femmina <input type="radio" name="sex" value="femmina"><br>
+                    <textarea id="tcommento" name="commento" rows="5" cols="100"> </textarea><br>
+                    <select id="spv" name="pv" size="4">
+                        <option value = "TO"> Torino</option>
+                        <option value = "AL"> Alessandria</option>
+                        <option value = "AT"> Asti</option>
+                        
+                    </select>
+                    
+                    <input type="button" id="buttonok" value="Ok!"><br>
+                    <input type="submit" id="invia" value="invia"><br>
+
+                </form>
+            </div>
+
+            <div class="info">
+                <h2>Descrizione Londra                
+                </h2>
+                <p>seorci porta non pulvinar neque laoreet suspendisse 
+                    interdum consectetur libero id faucibus nisl tincidunt 
+                    eget nullam non nisi est sit amet facilisis magna etiam 
+                    tempor orci eu lobortis elementum nibh tellus molestie
+                </p>
+            </div>
+            <div class="info">
+                <h2>Descrizione Parigi                
+                </h2>
+                <p>seorci porta non pulvinar neque laoreet suspendisse 
+                    interdum consectetur libero id faucibus nisl tincidunt 
+                    eget nullam non nisi est sit amet facilisis magna etiam 
+                    tempor orci eu lobortis elementum nibh tellus molestie
+                </p>
+            </div>
+            <div class="info">
+                <h2>Descrizione Firenze                
+                </h2>
+                <p><img src="img/firenze.jpg" alt="immagine di firenze"/>
+                    seorci porta non pulvinar neque laoreet suspendisse 
+                    interdum consectetur libero id faucibus nisl tincidunt 
+                    eget nullam non nisi est sit amet facilisis magna etiam 
+                    tempor orci eu lobortis elementum nibh tellus molestie<br>
+                    seorci porta non pulvinar neque laoreet suspendisse 
+                    interdum consectetur libero id faucibus nisl tincidunt 
+                    eget nullam non nisi est sit amet facilisis magna etiam 
+                    tempor orci eu lobortis elementum nibh tellus molestie<br>
+                </p>
+            </div>
+            <div class="dati">
+                <table>
+                    <tr>
+                        <th >Citt&agrave;</th>
+                        <th colspan="2">popolazione e clima</th>
+
+                    </tr>
+                    <tr>
+                        <td>londra</td>
+                        <td>22000000</td>
+                        <td>mite</td>
+                    </tr>
+                    <tr>
+                        <td>parigi</td>
+                        <td>10000000</td>
+                        <td>continentale</td>
+                    </tr>
+                    <tr>
+                        <td>firenze</td>
+                        <td>750000</td>
+                        <td>mediterraneo</td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+
+        <footer>
+            <h2>footer</h2>
+        </footer>
+    </body>
+</html>
+
+

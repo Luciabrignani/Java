@@ -1,0 +1,95 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 31 mar 2022, 14:31:59
+    Author     : tss
+*/
+
+h1 {
+    color:#494b7e;
+}
+
+#titolo {
+    font-family: Verdana;
+}
+
+.sfondoy {
+    background-color: yellow;
+}
+
+#main span {
+    font-size:15px;
+    color: fuchsia;
+}
+
+
+
+table {
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+
+.info  p img {
+    float:left;
+    max-width: 300px;
+}
+.info p {
+    overflow:auto;
+}
+/* larghezza primacolonna della tabella dati */
+
+.dati th:nth-child(1) {
+    width:50%;
+}
+
+/* gallery style  */
+.divgallery {
+    overflow:auto;
+}
+
+.item-gallery {
+    float:left;
+    width:33%;
+
+}
+.item-gallery img {
+    width:95%;
+
+}
+form{
+    background-color: lightgray;
+}
+
+@media screen and (max-width: 480px){
+
+    .item-gallery {
+        float:none;
+        width:100%;
+        margin-bottom: -10px 
+
+    }
+    .item-gallery img {
+        width:95%;
+
+    }
+    
+    .info  p img {
+    float:none;
+    max-width: 480px;
+}
+    h1{
+        font-size: 30px;
+    }
+    h2{
+        font-size: 18px;
+    }
+    h3{
+        font-size: 14px;
+    }
+}
+
+
+
