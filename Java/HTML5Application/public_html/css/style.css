@@ -3,93 +3,109 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
 /* 
-    Created on : 31 mar 2022, 14:31:59
+    Created on : 31 mar 2022, 14:32:00
     Author     : tss
 */
-
-h1 {
+*{
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    outline: 0px;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    letter-spacing: 0px;
+    font-family: verdana;
+}
+div{
+    font-family: sansation;
+    padding: 5px;
+    }
+    form{
+        font-family: sansation;
+    }
+h1{
     color:#494b7e;
+    text-align: center;
 }
 
-#titolo {
-    font-family: Verdana;
+#titolo{
+    font-family: Sacramento;
 }
-
-.sfondoy {
+.sfondoy{
     background-color: yellow;
 }
 
 #main span {
-    font-size:15px;
+    font-size: 15px;
     color: fuchsia;
 }
-
-
-
-table {
-    width:100%;
+table{
+    width: 100%;
     margin:0px;
     padding:0px;
+    text-align: center;
 }
-
-.info  p img {
+.info p img {
     float:left;
     max-width: 300px;
 }
-.info p {
+.info p{
     overflow:auto;
 }
-/* larghezza primacolonna della tabella dati */
+/*larghezza prima colonna della tabella dati*/
 
-.dati th:nth-child(1) {
+.dati th{
     width:50%;
 }
-
-/* gallery style  */
-.divgallery {
+.divgallery{
     overflow:auto;
 }
 
-.item-gallery {
-    float:left;
-    width:33%;
+.itemgallery{
+        float:left;
+        width: 33.33%;
+        padding: 0px;
+        border: 0px
+    }
+    .itemgallery img{
+        width: 100%;
+        padding: 0px;
+        border:0px;
+    }
+    form{
+        background-color: lightgray;
+    }
 
-}
-.item-gallery img {
-    width:95%;
-
-}
-form{
-    background-color: lightgray;
-}
 
 @media screen and (max-width: 480px){
 
-    .item-gallery {
+    .itemgallery{
         float:none;
-        width:100%;
-        margin-bottom: -10px 
-
+        width: 100%;
+        padding: 0px;
+        border: 0px
     }
-    .item-gallery img {
-        width:95%;
-
+    .itemgallery img{
+        width: 95%;
+        padding: 0px;
+        border:0px;
+        margin-bottom: -5px
     }
-    
-    .info  p img {
+    .info p img {
     float:none;
-    max-width: 480px;
-}
-    h1{
-        font-size: 30px;
-    }
+    max-width: 480px;}
+
     h2{
-        font-size: 18px;
+        font-size: 22px;
+    }
+    h1{
+        font-size: 25px;
     }
     h3{
-        font-size: 14px;
+        font-size: 16px;
     }
-}
 
+
+}
 
 
