@@ -4,8 +4,10 @@
  */
 package it.tss.world.entity;
 
+import it.tss.world.adapters.CountryTypeAdapter;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,18 +30,19 @@ public class City implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
-    @Column(nullable = true, length = 35)
-    private String Name;
+    @Column(nullable = true, length = 35, name= "Name")
+    private String name;
     
+    @JsonbTypeAdapter(CountryTypeAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(name = "CountryCode")
     private Country country;
     
-    @Column(nullable = true, length = 20)
-    private String District;
+    @Column(nullable = true, length = 20, name= "District")
+    private String district;
     
-    @Column(nullable = true)
-    private Integer Population;
+    @Column(nullable = true, name= "Population")
+    private Integer population;
 
     public Integer getID() {
         return ID;
@@ -50,35 +53,35 @@ public class City implements Serializable {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String Name) {
-        this.Name = Name;
+        this.name = Name;
     }
 
-    public Country getCountryCode() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountryCode(Country country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
     public String getDistrict() {
-        return District;
+        return district;
     }
 
     public void setDistrict(String District) {
-        this.District = District;
+        this.district = District;
     }
 
     public Integer getPopulation() {
-        return Population;
+        return population;
     }
 
     public void setPopulation(Integer Population) {
-        this.Population = Population;
+        this.population = Population;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "City{" + "ID=" + ID + ", Name=" + Name + ", CountryCode=" + country + ", District=" + District + ", Population=" + Population + '}';
+        return "City{" + "ID=" + ID + ", Name=" + name + ", CountryCode=" + country + ", District=" + district + ", Population=" + population + '}';
     }
 
 }

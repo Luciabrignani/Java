@@ -51,12 +51,6 @@ public class CountryResources {
         return storecountry.find(id);
     }
     
-    @POST
-    @Path("{id}/city")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void createCity(@PathParam("id") String id, @Valid City entity) {
-        storecity.save(entity);
-    }
     
    
     

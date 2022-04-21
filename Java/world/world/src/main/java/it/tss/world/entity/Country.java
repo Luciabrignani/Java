@@ -200,38 +200,7 @@ public class Country implements Serializable {
     public JsonObject toJsonSlice() {
         return Json.createObjectBuilder()
                 .add("Code", this.Code)
-                .add("link", UriBuilder.fromResource(CountryResources.class)
-                        .path(CountryResources.class,"find")
-                        .build(this.Code).toString())
                 .build();
-
-    }
-
-    @Override
-    public String toString() {
-        return "Country{" + "Code=" + Code + ", Name=" + Name + ", Continent=" + Continent + ", Region=" + Region + ", SurfaceArea=" + SurfaceArea + ", IndepYear=" + IndepYear + ", Population=" + Population + ", LifeExpectancy=" + LifeExpectancy + ", GNP=" + GNP + ", GNPOld=" + GNPOld + ", LocalName=" + LocalName + ", GovernmentForm=" + GovernmentForm + ", HeadOfState=" + HeadOfState + ", Capital=" + Capital + ", Code2=" + Code2 + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.Code);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Country other = (Country) obj;
-        return Objects.equals(this.Code, other.Code);
     }
 
 }

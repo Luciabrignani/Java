@@ -1,0 +1,13 @@
+it/tss/world/entity/CountryLanguage.class
+it/tss/world/entity/IsOfficialEnum.class
+it/tss/world/control/CountryStore.class
+airhacks/service/ping/boundary/JAXRSConfiguration.class
+it/tss/world/entity/CountrylanguagePK.class
+it/tss/world/boundary/CountryResources.class
+it/tss/world/entity/City.class
+it/tss/world/control/CityStore.class
+it/tss/world/adapters/CountryTypeAdapter.class
+it/tss/world/entity/Country.class
+airhacks/service/ping/boundary/PingResource.class
+it/tss/world/entity/ContinentEnum.class
+it/tss/world/boundary/CityResources.class

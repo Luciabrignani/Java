@@ -9,9 +9,13 @@ import it.tss.world.control.CountryStore;
 import it.tss.world.entity.City;
 import java.util.List;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -38,6 +42,12 @@ public class CityResources {
     @Produces(MediaType.APPLICATION_JSON)
     public City findByName(@QueryParam("name") String name){
         return storecity.byName(name).orElseThrow(() ->new NotFoundException("tag non trovato"));
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createCity(@Valid City entity) {
+        storecity.save(entity);
     }
     
 }

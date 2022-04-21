@@ -37,7 +37,7 @@ public class CityStore {
     }
 
     public List<City> all() {
-        return em.createQuery("select e from City e ")
+        return em.createQuery("select e from City e", City.class)
                 .getResultList();
     }
 
