@@ -9,9 +9,12 @@ import bkm.control.TagStore;
 import bkm.entity.Book;
 import bkm.entity.Tag;
 import bkm.entity.User;
+import bkm.security.JWTManager;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -25,8 +28,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ResourceContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
@@ -40,6 +48,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 @org.eclipse.microprofile.openapi.annotations.tags.Tag(
         name = "Gestione Books", description = "Permetti ad ogni utente di gestire i propri Books"
 )
+@DenyAll
 public class BookResource {
     @Inject
     BookStore store;
@@ -47,15 +56,26 @@ public class BookResource {
     @Inject
     TagStore tagStore;
     
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Book> all() {
-        return store.all();
-    }
+    @Context
+    ResourceContext rc;
 
+    @Context
+    UriInfo uriInfo;
+
+    
+    @Inject
+    JWTManager jwtManager;
+
+    @Inject
+    JsonWebToken token;
+    
+    @Claim(value = "sub")
+    String sub;
+   
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("users")
     public List <Book> find(@PathParam("id") Long id) {
         return store.byUser(id);
     }
@@ -64,6 +84,7 @@ public class BookResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("users")
     public Book update(@PathParam("id") Long id, @Valid Book entity) {
         return store.save(entity);
     }
@@ -71,6 +92,7 @@ public class BookResource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("users")
     public void delete(@PathParam("id") Long id) {
         throw new UnsupportedOperationException();
     }
@@ -82,12 +104,22 @@ public class BookResource {
     @APIResponses({
         @APIResponse(responseCode = "201", description = "book creato con successo")
     })
-    @PermitAll
+    @RolesAllowed("users")
     public Response create(@Valid Book entity) {
         Book saved = store.save(entity);
         return Response.status(Response.Status.CREATED)
                 .entity(saved)
                 .build();
     }
+    
+    @PATCH
+    @Path("{id}/tags")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @RolesAllowed("users")
+    public void addTag(@PathParam("id") Long id, @NotBlank String tag) {
+        Book found = store.find(id).orElseThrow(() -> new NotFoundException());
+        store.addTag(found,tag);
+    }
+            
 
   }

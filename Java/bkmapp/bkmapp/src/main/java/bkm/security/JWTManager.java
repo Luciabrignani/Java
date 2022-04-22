@@ -29,7 +29,7 @@ import net.minidev.json.JSONObject;
 public class JWTManager {
 
     private static final String PRIVATE_KEY = "/META-INF/private_key.pem";
-    private static final String ISS = "bkmapp";
+    private static final String ISS = "bkm";
 
     public String generate(User usr) {
 
