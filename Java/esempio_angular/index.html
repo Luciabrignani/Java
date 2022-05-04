@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jwt-decode.js"></script>
+</head>
+
+<body onload="init()">
+    <h2>utente collegato: <span id="loggeduser"> nessun utente</span>  
+        <a href="#" id="blogout" onclick="logout();">Logout</a></h2>
+    <button onclick="getBkms()">carica bkm</button>
+    <div id="divbkms">no result</div>
+    <hr>
+    <form id="flogin">
+        <input id="usr" name="usr" required placeholder="ins. username o mail"> <br>
+        <input type="password" id="pwd" name="pwd" required placeholder="ins password"><br>
+        <input type="button" onclick="login()" value="LOGIN">
+
+    </form>
+    <hr>
+    <form id="fbkm">
+        <input id="shared" name="shared" required placeholder="ins. shared true o false"> <br>
+        <input  id="description" name="description" required placeholder="ins description"><br>
+        <input  id="url" name="url" required placeholder="ins url"><br>
+        <input type="button" onclick="creaBKM()" value="crea BKM">
+
+    </form>
+
+
+</body>
+
+</html>
+
+<script>
+    function init(){
+        let usr=sessionStorage.getItem("myusr");
+        if (usr) // loggato
+            {
+                document.getElementById("loggeduser").innerHTML=usr;
+            }
+
+        else //non loggato
+        {
+            document.getElementById("loggeduser").innerHTML=" nessun utente";
+        }
+
+
+
+    }
+    function logout(){
+        sessionStorage.removeItem("globaljwt");
+        sessionStorage.clear();
+        let jwt=sessionStorage.getItem("globaljwt");
+        window.location.href="index.html";
+
+    }
+
+    function creaBKM() {
+        let id= sessionStorage.getItem("myid");
+        let url = "https://bkmapp.tssdev.it/resources/users/" +id+ "/bkms";
+        let s = document.querySelector("#shared").value;
+        let d = document.querySelector("#description").value;
+        let u = document.querySelector("#url").value;
+        if (s=='true') 
+            s=true;
+        else 
+            s=false;
+        let data= new Date();
+        data=data.toISOString().replace("Z","").replace("T"," ");
+        let postdata = {
+            "shared": s,
+            "description": d,
+            "url": u,
+            "created":data
+        };
+        let auth= "Bearer " + sessionStorage.getItem("globaljwt");
+        postdata = JSON.stringify(postdata);
+        fetch(url,
+            {
+                method: "post",
+                body: postdata,
+                mode:"no-cors" ,
+                headers: {
+                    "Accept": 'application/json',
+                    "Content-type": 'application/json',
+                    "Authorization": auth
+                }
+            })
+            .then(response => {
+                if (response.status == 401) {
+                    //alert("username errata");
+                }
+                else
+                    return response.json();
+            })
+            .then(jsobj => {
+                if (jsobj != undefined ) {
+                    console.log(jsobj.toString());    
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                document.querySelector("#loggeduser").innerHTML=" nessun utente";
+
+            }
+
+            );
+
+
+
+    }
+
+
+
+
+    function login() {
+        let url = "https://bkmapp.tssdev.it/resources/users/login";
+        let usr = document.querySelector("#usr").value;
+        let pwd = document.querySelector("#pwd").value;
+        let postdata = {
+            "usr": usr,
+            "pwd": pwd
+        };
+
+        postdata = JSON.stringify(postdata);
+        fetch(url,
+            {
+                method: "post",
+                body: postdata,
+                headers: {
+                    "Accept": 'application/json',
+                    "Content-type": 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status == 401) {
+                    //alert("username errata");
+                }
+                else
+                    return response.json();
+            })
+            .then(jsobj => {
+                if (jsobj != undefined || true) {
+                    sessionStorage.setItem("globaljwt",jsobj.jwt);
+                    let decoded = jwt_decode(jsobj.jwt);
+                    sessionStorage.setItem("myid",decoded.sub);
+                    sessionStorage.setItem("myusr",decoded.upn);
+                    document.querySelector("#loggeduser").innerHTML=sessionStorage.getItem("myusr");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                document.querySelector("#loggeduser").innerHTML=" nessun utente";
+
+            }
+
+            );
+
+
+
+    }
+
+    function getBkms() {
+        let nfile = "https://bkmapp.tssdev.it/resources/bkms";
+        fetch(nfile)
+            .then(ris =>
+                ris.json())
+            .then(jsobj => {
+                let f1 = "description";
+                let arbkm = jsobj.data;
+                let table = "<table>";
+                for (bkm of arbkm) {
+                    let row = "<tr><td>" + bkm[f1] + "</td><td>" + bkm.link + "</td></tr>";
+                    table += row;
+                }
+                table += "</table>";
+                document.querySelector("#divbkms").innerHTML = table;
+            });
+    }
+</script>

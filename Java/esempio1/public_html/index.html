@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function calcola(){
+                let inom= document.querySelector("#nome");
+                let txcog= document.querySelector("#cognome").value;
+                let ris= "ciao " + inom.value + " " + txcog;
+                let objris= document.querySelector("#result");
+                objris.innerHTML=ris;
+            }
+            function init () {
+                const d= newDate();
+                let data= document.querySelector("#data");
+                data.innerHTML="sei arrivato oggi alle "
+                + d.toLocaleString()
+                + " " + d.toLocaleString()
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <div id="source"> 
+            <h2>dati anagrafici</h2>
+            <h3 id="data"></h3>           
+            <input type="text" id="nome" name="nome" placeholder="inserisci il nome"><br>
+            <input type="text" id="cognome" name="cognome" placeholder="inserisci il cognome"><br>
+            <input type="button" id="btnris" value="invio" onclick="calcola()"><br>
+                
+            <div id="result"> ----- </div>
+        </div>
+     
+    </body>
+</html>
