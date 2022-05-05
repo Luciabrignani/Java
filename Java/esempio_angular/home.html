@@ -15,26 +15,54 @@
 </head>
 
 <body ng-app="myApp">
-    <div class="container" ng-controller="loginCtrl" >
-        <h2>FORM LOGIN</h2>
-        <h4>Utente collegato: <span >{{ loggedusr  }}</span></h4>
-        <form name="flogin" ng-hide="logged" >
-            <div class="form-group">
-                <label for="usr">Usr:</label>
-                <input ng-model="usr" type="text" class="form-control" id="usr" placeholder="Enter username" name="usr"
-                    required>
-                <span ng-show="flogin.usr.$error.required">campo richiesto</span>
-            </div>
-            <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input ng-model="pwd" required type="password" class="form-control" id="pwd"
-                    placeholder="Enter password" name="pwd">
-                <span ng-show="flogin.pwd.$error.required">campo richiesto</span>
-            </div>
-            <input type="button" ng-disabled="flogin.usr.$dirty && flogin.usr.$invalid ||  
-            flogin.pwd.$dirty && flogin.pwd.$invalid" ng-click="login()" class="btn btn-primary" value="Submit"  >
-        </form>
-    </div>
+    <div class="container" ng-controller="loginCtrl">
+        <h4>Utente collegato: <span> {{ loggedusr }}</span></h4>
+
+
+        <div id="divlogin" ng-hide="logged">
+            <h2>FORM LOGIN</h2>
+
+
+
+
+            <form name="flogin" ng-hide="logged">
+                <div class="form-group">
+                    <label for="usr">Usr:</label>
+                    <input ng-model="usr" type="text" class="form-control" id="usr" placeholder="Enter username"
+                        name="usr" required>
+                    <span ng-show="flogin.usr.$error.required">campo richiesto</span>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input ng-model="pwd" required type="password" class="form-control" id="pwd"
+                        placeholder="Enter password" name="pwd">
+                    <span ng-show="flogin.pwd.$error.required">campo richiesto</span>
+                </div>
+                <input type="button" ng-disabled="flogin.usr.$dirty && flogin.usr.$invalid ||  
+            flogin.pwd.$dirty && flogin.pwd.$invalid" ng-click="login()" class="btn btn-primary" value="Submit">
+            </form>
+        </div>
+        <div id="divlogged" ng-show="logged">
+            <h3>Elenco bookmarks</h3>
+            <table>
+                <tr>
+                    <th>link</th>
+                    <th>owner</th>
+                    <th>description</th>
+                    <th>url</th>
+                </tr>
+                <tr ng-repeat="bk in bkms">
+                    <td>{{bk.link}}</td>
+                    <td>{{bk.owner.email}}</td>
+                    <td>{{bk.description}}</td>
+                    <td>{{bk.url}}</td>
+
+
+                </tr>
+
+            </table>
+        </div>
+
 
 </body>
 
@@ -46,8 +74,41 @@
         function ($scope, $http) {
             $scope.usr = '';
             $scope.pwd = '';
-            $scope.logged=false;
+            $scope.logged = false;
+
+            $scope.getMyBkms = function () {
+                let myurl = "https://bkmapp.tssdev.it/resources/users/" +
+                    sessionStorage.getItem("myid") + "/bkms";
+
+                let req = {
+                    url: myurl,
+                    method: "GET",
+
+                    headers: {
+                        "Authorization": "Bearer " + sessionStorage.getItem("myjwt"),
+                        "Accept": 'application/json',
+                        "Content-type": 'application/json'
+                    }
+
+                }
+                $http(req).then(
+                    function (response) {   // caso successo
+                        $scope.bkms = response.data.data;
+
+                    },
+                    function (response) { // caso errore login
+                        //sessionStorage.clear();
+                        //$scope.loggedusr = "nessuno";
+                        //$scope.logged = false;
+                    });
+
+            };// fine metodo login
+
+
+
+
             $scope.login = function () {
+
                 let req = {
                     url: "https://bkmapp.tssdev.it/resources/users/login",
                     method: "POST",
@@ -60,23 +121,26 @@
                 }
                 $http(req).then(
                     function (response) {   // caso successo
-                        jsobj=response.data;
-                        sessionStorage.setItem("globaljwt", jsobj.jwt);
+                        jsobj = response.data;
+                        sessionStorage.setItem("myjwt", jsobj.jwt);
                         let decoded = jwt_decode(jsobj.jwt);
                         sessionStorage.setItem("myid", decoded.sub);
                         sessionStorage.setItem("myusr", decoded.upn);
                         $scope.loggedusr = sessionStorage.getItem("myusr");
-                        $scope.logged=true;
+                        $scope.logged = true;
+                        $scope.getMyBkms();
+
+
                     },
-                    function (response) {
+                    function (response) {//caso errore login
                         sessionStorage.clear();
                         $scope.loggedusr = "nessuno";
-                        $scope.logged=false; 
+                        $scope.logged = false;
                     });
 
-            };// fine metodo login ctrl
+            };// fine metodo login
         } //fine function controller
     );   // fine costruttore controller
 
-    
+
 </script>

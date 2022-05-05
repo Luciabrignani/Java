@@ -120,4 +120,3 @@
     }
 
 })));
-//# sourceMappingURL=jwt-decode.js.map
