@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl"> 
+        <h1> interfaccia di login </h1>
+        <input name="txtuser" id="txtuser" type="text" placeholder="inserisci il tuo nome utente" ng-model = "firstname"> <br> <br>
+        <input name="txtpassword" id="txtpassword" type="password"> <br> <br>
+        <button name="btninvia" id="btninvia" ng-click="login()" class="btn btn-dark"> invia </button>
+        
+        <p ng-bind = "firstname"></p> 
+        <input name="ss" id="ss" type="text" placeholder="inserisci il tuo nome utente" value = {{firstname}}> <br> <br>
+    </div>
+
+</body>
+
+</html>

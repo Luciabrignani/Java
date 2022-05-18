@@ -11,12 +11,16 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="jwt-decode.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="mystyle.css">
     <title>esempio anguraljs bootstrap</title>
 </head>
 
 <body ng-app="myApp">
     <div class="container" ng-controller="loginCtrl">
-        <h4>Utente collegato: <span>{{ loggedusr }}</span></h4>
+        <h4>Utente collegato: <span>{{ loggedusr }}</span> <button class="btn btn-light" ng-click="getMyBkms(1)">
+
+                refresh!</button> <span id="totcount">?</span> </h4>
 
 
         <div id="divlogin" ng-hide="logged">
@@ -40,9 +44,9 @@
             </form>
         </div>
         <div id="divlogged" class="row" ng-show="logged">
-            <div class="col-8">
+            <div class="col-md-8">
                 <h3>Elenco bookmarks </h3>
-                
+
                 <table class="table table-responsive table-bordered">
                     <tr>
                         <th>link</th>
@@ -51,25 +55,41 @@
                         <th>url</th>
                     </tr>
                     <tr ng-repeat="bk in bkms">
-                        <td><button ng-click="viewBkm('{{ bk.link }}')" class="btn btn-outline-success">Dettagli</button></td>
+                        <td><button ng-click="viewBkm( bk.link)" class="btn btn-outline-success">Dettagli</button></td>
                         <td>{{ bk.owner.email }}</td>
                         <td>{{ bk.description }}</td>
                         <td>{{ bk.url }}</td>
                     </tr>
                 </table>
+                <!--   paginatore  -->
+                <ul class="pagination" id="bkmPaginator">
+                    <li ng-repeat="p in np" class="page-item"><a class="page-link" href="#"
+                            ng-click="getMyBkms(p)">{{p}}</a></li>
+                </ul>
+                <div id="myPie" style="width: 100%;"></div>
+                <div id="myColumn" style="width: 100%;"></div>
+                
+                <!-- div per vista singolo bkm -->
                 <div id="divviewbkm" ng-show="viewshow">
-                    <table class="table table-bordered table-dark">
+                    <table class="table table-bordered table-light">
                         <tr>
-                            <td>Description</td><td>{{ viewdescription }}</td>
-                            <td>Created</td><td>{{ viewcreated }}</td>
-                            <td>Author</td><td>{{ viewauthor }}</td>
-                            <td>Url</td><td>{{ viewurl }}</td>
-                            <td>Shared</td><td>{{ viewdshared }}</td>
+                            <td>Description</th>
+                            <th>Created</th>
+                            <th>Author</th>
+                            <th>Url</th>
+                            <th>Shared</th>
+                        </tr>
+                        <tr>
+                            <td>{{ viewdescription }}</td>
+                            <td>{{ viewcreated }}</td>
+                            <td>{{ viewauthor }}</td>
+                            <td>{{ viewurl }}</td>
+                            <td>{{ viewshared }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-md-4">
                 <div id="divinsbkm">
                     <h3>Inserimento Bookmark</h3>
                     <form name="fbkm">
@@ -100,14 +120,13 @@
                             </label>
                         </div>
 
-                        <input type="button"
-                            ng-disabled="fbkm.url.$dirty && fbkm.url.$invalid ||
-                            fbkm.description.$dirty && fbkm.description.$invalid"
-                            ng-click="creaBkm()" class="btn btn-primary" value="Send Bookmark">
+                        <input type="button" ng-disabled="fbkm.url.$dirty && fbkm.url.$invalid ||
+                            fbkm.description.$dirty && fbkm.description.$invalid" ng-click="creaBkm()"
+                            class="btn btn-primary" value="Send Bookmark">
 
 
                     </form>
-                    <span > {{ msginsbkm }}</span>
+                    <span> {{ msginsbkm }}</span>
 
                 </div>
                 <div id="divinstag">
@@ -121,14 +140,19 @@
 
 </html>
 <script>
+    //caricachera' i moduli per io grafici google
+    google.charts.load('current', { 'packages': ['corechart'] });
+    let all=[];
+
     var app = angular.module('myApp', []);
     app.controller('loginCtrl',
         function ($scope, $http) {
             $scope.usr = '';
             $scope.pwd = '';
-            $scope.msginsbkm="inserisci i dati (tutti obbligatori)";
+            $scope.msginsbkm = "inserisci i dati (tutti obbligatori)";
             $scope.logged = false;
-            $scope.viewshow=false;
+            $scope.viewshow = false;
+            $scope.allbkms=[];
             $scope.login = function () {
                 let req = {
                     url: "https://bkmapp.tssdev.it/resources/users/login",
@@ -148,7 +172,7 @@
                         sessionStorage.setItem("myusr", decoded.upn);
                         $scope.loggedusr = sessionStorage.getItem("myusr");
                         $scope.logged = true;
-                        $scope.getMyBkms();
+                        $scope.getMyBkms(1);
                     },
                     function (response) { //caso errore login
                         sessionStorage.clear();
@@ -157,21 +181,25 @@
                     });
 
             };// fine metodo login() 
+
+
+
             $scope.creaBkm = function () {
-                let sh=false;
-                let idok=sessionStorage.getItem("myid");
-                idok = idok*1;
-                if ($scope.shared=="true") sh=true;
+                let sh = false;
+                let idok = sessionStorage.getItem("myid");
+                idok = idok * 1;
+                if ($scope.shared == "true") sh = true;
                 let req = {
-                    url: "https://bkmapp.tssdev.it/resources/users/" + 
-                    sessionStorage.getItem("myid") + "/bkms",
+                    url: "https://bkmapp.tssdev.it/resources/users/" +
+                        sessionStorage.getItem("myid") + "/bkms",
                     method: "POST",
-                    data: { description: $scope.description, url: $scope.url,
-                            shared: sh ,
-                            owner: {id : idok}
-                        },
+                    data: {
+                        description: $scope.description, url: $scope.url,
+                        shared: sh,
+                        owner: { id: idok }
+                    },
                     headers: {
-                        
+
                         "Authorization": "Bearer " + sessionStorage.getItem("myjwt"),
                         "Accept": 'application/json',
                         "Content-type": 'application/json'
@@ -179,11 +207,11 @@
                 }
                 $http(req).then(
                     function (response) {   // caso successo
-                        $scope.msginsbkm="bookmark creato correttamente!";
-                        $scope.getMyBkms();
+                        $scope.msginsbkm = "bookmark creato correttamente!";
+                        $scope.getMyBkms(1);
                     },
                     function (response) { //caso errore login
-                        $scope.msginsbkm="Errore in creazione bookmark!!!";
+                        $scope.msginsbkm = "Errore in creazione bookmark!!!";
                         /*
                         sessionStorage.clear();
                         $scope.loggedusr = "nessuno";
@@ -192,9 +220,56 @@
                     });
 
             };// fine metodo login() 
-            $scope.getMyBkms = function () {
+            $scope.creaGraph = function () {
+                // array primo elemento etichette valori
+                // e poi n elementi coi dati della serie
+                let nums = 0;
+                let numns = 0;
+                for (bk of $scope.bkms) {
+                    if (bk.shared) nums++;
+                    if (!bk.shared) numns++;
+                }
+                // es nums -- 3 e numns -- 2   tot 5
+                let dati = [
+                    ['Tipo', 'Percentuale'],
+                    ['Shared', nums],
+                    ['Not Shared', numns]];
+                // inserire i dati nel model di google chart
+                let data = google.visualization.arrayToDataTable(dati);
+                let options = {
+                    title: 'World Wide BKMS tss@enterprise'
+                };
+                let chart = new google.visualization.PieChart(document.getElementById('myPie'));
+                chart.draw(data, options);
+            }
+            $scope.creaGraphColumn = function () {
+                // array primo elemento etichette valori
+                // e poi n elementi coi dati della serie
+                let nums = 0;
+                let numns = 0;
+                for (bk of $scope.allbkms) {
+                    if (bk.shared) nums++;
+                    if (!bk.shared) numns++;
+                }
+                // es nums -- 3 e numns -- 2   tot 5
+                let dati = [
+                    ['Tipo', 'Percentuale'],
+                    ['Shared', nums],
+                    ['Not Shared', numns]];
+                // inserire i dati nel model di google chart
+                let data = google.visualization.arrayToDataTable(dati);
+                let options = {
+                    title: 'All BKMS tss@enterprise'
+                };
+                let chart = new google.visualization.ColumnChart(document.getElementById('myColumn'));
+                chart.draw(data, options);
+            }
+
+
+            $scope.getMyBkms = function (pag) {
+
                 let myurl = "https://bkmapp.tssdev.it/resources/users/" +
-                    sessionStorage.getItem("myid") + "/bkms";
+                    sessionStorage.getItem("myid") + "/bkms/?page=" + pag;
                 let req = {
                     url: myurl,
                     method: "GET",
@@ -209,18 +284,76 @@
                 $http(req).then(
                     function (response) {   // caso successo
                         $scope.bkms = response.data.data;
+                        let count = response.data.count;
+                        document.getElementById("totcount").innerHTML = " (" + count + ")";
+                        count = count / 5;
+                        count = Math.ceil(count);
+                        let arp = []
+                        //scorro e creo elementi per array
+                        for (let i = 1; i <= count; i++)
+                            arp.push(i)
+                        $scope.np = arp;
+                        // call creaGrpah perchje' in bkms array oggetti bkm
+                        $scope.getALLMyBkms(count);
+                        $scope.creaGraph();
+
 
                     },
                     function (response) { //caso errore login
+                        console.log("qweqwe")
                         /*sessionStorage.clear();
                         $scope.loggedusr = "nessuno";
                         $scope.logged=false; 
                         */
                     });
 
+            };// fine metodo getMyBkms()
+             
+            $scope.getALLMyBkms = function (numpag) {
+                // eseguo n volte la fetch apagine successive e mi limito ad aggiungere 
+                // a $scope.allbkms tutti  i bkm che carico
+                $scope.allbkms.splice(0,$scope.allbkms.length);
+                all.splice(0,all.length);
+                for (let pag = 1; pag <= numpag; pag++) {
+                    let myurl = "https://bkmapp.tssdev.it/resources/users/" +
+                        sessionStorage.getItem("myid") + "/bkms/?page=" + pag;
+                    let req = {
+                        url: myurl,
+                        method: "GET",
+
+                        headers: {
+                            "Authorization": "Bearer " + sessionStorage.getItem("myjwt"),
+                            "Accept": 'application/json',
+                            "Content-type": 'application/json'
+                        }
+
+                    }
+                    $http(req).then(
+                        function (response) {   // caso successo
+                            //array da max 5 bkm
+                            let mybkms =response.data.data;
+                            for (let item of mybkms) {//scorro un bkm per volta e lo inserisco in allbkms
+                                $scope.allbkms.push(item);
+                                all.push(item);
+                            }
+                            if (pag==numpag) $scope.creaGraphColumn();
+                        },
+                        function (response) { //caso errore login
+                            console.log("qweqwe")
+                            /*sessionStorage.clear();
+                            $scope.loggedusr = "nessuno";
+                            $scope.logged=false; 
+                            */
+                        });
+                }
+                //fine ciclo crea allbkms
+                
+
             };// fine metodo getMyBkms() 
+
+
             $scope.viewBkm = function (link) {
-                let myurl = "https://bkmapp.tssdev.it/resources" + link          ;
+                let myurl = "https://bkmapp.tssdev.it/resources" + link;
                 let req = {
                     url: myurl,
                     method: "GET",
@@ -234,22 +367,22 @@
                 }
                 $http(req).then(
                     function (response) {   // caso successo
-                        let json = response.data.data;
-                        $scope.viewdescription=json.description;
-                        $scope.viewshared=json.shared;
-                        $scope.viewauthor=json.owner.email + "[id:" + json.owner.id + "]";
-                        $scope.viewurl=json.url;
-                        $scope.viewcreated=json.created.substr(0,10);
-                        $scope.viewshow=true;                       
+                        let json = response.data;
+                        $scope.viewdescription = json.description;
+                        $scope.viewshared = json.shared;
+                        $scope.viewauthor = json.owner.email + "[id:" + json.owner.id + "]";
+                        $scope.viewurl = json.url;
+                        $scope.viewcreated = json.created.substr(0, 10);
+                        $scope.viewshow = true;
 
                     },
                     function (response) { //caso errore login
-                        $scope.viewdescription="";
-                        $scope.viewshared="";
-                        $scope.viewauthor="";
-                        $scope.viewurl="";
-                        $scope.viewcreated="";
-                        $scope.viewshow=false;
+                        $scope.viewdescription = "";
+                        $scope.viewshared = "";
+                        $scope.viewauthor = "";
+                        $scope.viewurl = "";
+                        $scope.viewcreated = "";
+                        $scope.viewshow = false;
                     });
 
             };// fine metodo getMyBkms() 
