@@ -26,7 +26,7 @@ class _MutuaPageState extends State<MutuaPage> {
         lastDate: DateTime(2030));
 
     ///aggiorno lo stato
-    if (fDate != null)
+    if (fDate != null) {
       setState(() {
         _selectedDate = fDate;
         if (a == 0) {
@@ -35,6 +35,7 @@ class _MutuaPageState extends State<MutuaPage> {
           _selectedDateEnd = fDate;
         }
       });
+    }
   }
 
   final TextEditingController reason = TextEditingController(text: "");
@@ -117,6 +118,10 @@ class _MutuaPageState extends State<MutuaPage> {
                   FloatingActionButton(onPressed: (){
                     Mutua m = MutuaControl.creaMutua("", _selectedDateStart, _selectedDateEnd, "");
                     MutuaControl.addMutua(m);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HistoricalPage()));
 
                   }, child: Text("INVIA"), backgroundColor: Colors.red[800],),
                 ],

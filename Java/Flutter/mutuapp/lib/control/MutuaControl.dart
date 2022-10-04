@@ -8,7 +8,7 @@ class MutuaControl {
   static Mutua creaMutua(String reason, DateTime start, DateTime end, String protocolNumber)
   {
     Mutua m = Mutua.create();
-    m.copyWith(reason: reason, start: start, end: end, protocolNumber: protocolNumber);
+    m = m.copyWith(reason: reason, start: start, end: end, protocolNumber: protocolNumber);
     return m;
   }
 
@@ -27,6 +27,10 @@ class MutuaControl {
 
   static List<Mutua> getMutuaFiltred(Status st) {
     return mutua.where((e) => e.status.name == st.name).toList();
+  }
+
+  static Mutua getMutuaStatus(Status st) {
+    return getMutuaFiltred(st)[0];
   }
 
   static clearMutua() {

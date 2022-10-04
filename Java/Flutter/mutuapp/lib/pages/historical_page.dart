@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mutuapp/pages/mutua_page.dart';
 
+import '../control/MutuaControl.dart';
+import '../entity/Status.dart';
+import '../entity/mutua.dart';
+
 class HistoricalPage extends StatefulWidget {
   const HistoricalPage({Key? key}) : super(key: key);
 
@@ -9,6 +13,25 @@ class HistoricalPage extends StatefulWidget {
 }
 
 class _HistoricalPageState extends State<HistoricalPage> {
+  HistoricalPageState() {
+    if (MutuaControl.getMutua().isNotEmpty) {
+      Mutua n = new Mutua.create();
+      n = MutuaControl.getMutuaStatus(Status.NEW);
+
+      if (n.start != null) {
+        data_start_new.text = n.start.toString();
+        data_end_new.text = n.end.toString();
+        protocolNumber_new.text = n.toString();
+      } else {
+        print("non c'è una new");
+      }
+    }
+  }
+
+  final TextEditingController data_start_new = TextEditingController(text: "");
+  final TextEditingController data_end_new = TextEditingController(text: "");
+  final TextEditingController protocolNumber_new = TextEditingController(text: "");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,96 +47,69 @@ class _HistoricalPageState extends State<HistoricalPage> {
             backgroundColor: Colors.red[800],
             child: const Icon(Icons.add)),
         drawer: _myDrawerWithAccountHeader(context),
-    body: Column(children: [
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Center(
-
-              child: Card(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const ListTile(
-                      title: Text('New'),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        TextButton(
-                          child: const Text('Ok'),
-                          onPressed: () {
-                          },
-
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
-                  ],
+        body: Column(children: [
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+              child: Center(
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextField(controller: data_start_new),
+                      TextField(controller: data_end_new),
+                      TextField(controller: protocolNumber_new),
+                      TextButton(
+                        child: const Text('Ok'),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Center(
-            child: Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const ListTile(
-                    title: Text('In progress'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+              child: Center(
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      TextField(),
+                      TextField(),
+                      TextField(),
                       TextButton(
                         child: const Text('Ok'),
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                       ),
-                      const SizedBox(width: 8),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Center(
-            child: Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const ListTile(
-                    title: Text('Closed'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+              child: Center(
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      TextField(),
                       TextButton(
                         child: const Text('Ok'),
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                       ),
-                      const SizedBox(width: 8),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    ]
-    )
-    );
+        ]));
   }
 }
 
