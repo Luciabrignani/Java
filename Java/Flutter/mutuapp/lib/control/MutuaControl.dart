@@ -4,11 +4,11 @@ import '../entity/mutua.dart';
 class MutuaControl {
   static final mutua = <Mutua>[];
 
-
-  static Mutua creaMutua(String reason, DateTime start, DateTime end, String protocolNumber)
-  {
+  static Mutua creaMutua(
+      String reason, DateTime start, DateTime end, String protocolNumber) {
     Mutua m = Mutua.create();
-    m = m.copyWith(reason: reason, start: start, end: end, protocolNumber: protocolNumber);
+    m = m.copyWith(
+        reason: reason, start: start, end: end, protocolNumber: protocolNumber);
     return m;
   }
 
@@ -16,7 +16,7 @@ class MutuaControl {
     mutua.add(m);
   }
 
-  static Mutua aggMutua(Mutua m, Status st){
+  static Mutua aggMutua(Mutua m, Status st) {
     m = m.copyWith(status: st);
     return m;
   }
@@ -36,8 +36,4 @@ class MutuaControl {
   static clearMutua() {
     mutua.clear();
   }
-
 }
-
-
-

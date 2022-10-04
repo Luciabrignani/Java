@@ -13,7 +13,7 @@ class HistoricalPage extends StatefulWidget {
 }
 
 class _HistoricalPageState extends State<HistoricalPage> {
-  HistoricalPageState() {
+  _HistoricalPageState() {
     if (MutuaControl.getMutua().isNotEmpty) {
       Mutua n = new Mutua.create();
       n = MutuaControl.getMutuaStatus(Status.NEW);
@@ -21,7 +21,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
       if (n.start != null) {
         data_start_new.text = n.start.toString();
         data_end_new.text = n.end.toString();
-        protocolNumber_new.text = n.toString();
+        protocolNumber_new.text = n.protocolNumber.toString();
       } else {
         print("non c'è una new");
       }
@@ -31,6 +31,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
   final TextEditingController data_start_new = TextEditingController(text: "");
   final TextEditingController data_end_new = TextEditingController(text: "");
   final TextEditingController protocolNumber_new = TextEditingController(text: "");
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +51,24 @@ class _HistoricalPageState extends State<HistoricalPage> {
         body: Column(children: [
           Container(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+              padding: const EdgeInsets.all(40.0),
               child: Center(
                 child: Card(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      TextField(controller: data_start_new),
+                      TextField(controller: data_start_new,
+                      ),
                       TextField(controller: data_end_new),
                       TextField(controller: protocolNumber_new),
-                      TextButton(
-                        child: const Text('Ok'),
-                        onPressed: () {},
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget> [
+                          TextButton(
+                            child: const Text('Modifica'),
+                            onPressed: () {},
+                          ),
+                        ],
                       ),
                     ],
                   ),

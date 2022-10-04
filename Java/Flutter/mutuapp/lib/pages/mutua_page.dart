@@ -45,92 +45,97 @@ class _MutuaPageState extends State<MutuaPage> {
   Widget build(BuildContext context) {
     final DateFormat df = DateFormat("dd/MM/yyyy");
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Crea qui la tua Mutua"),
-        backgroundColor: Colors.red[800],
-        actions: [
-          IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HistoricalPage()));
-              })
-        ],
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            Card(
-              child: Row(
-                children: [
-                  SizedBox(width: 20),
-                  Text(
-                    "DAL",
-                    style: TextStyle(fontSize: 16, color: Colors.red[800]),
-                  ),
-                  SizedBox(width: 10),
-                  Text(df.format(_selectedDateStart)),
-                  IconButton(
-                      icon: Icon(
-                        Icons.date_range,
-                        color: Colors.red[800],
-                      ),
-                      onPressed: () {
-                        getData(0);
-                      }),
-                  SizedBox(width: 60),
-                  Text(
-                    "AL",
-                    style: TextStyle(fontSize: 16, color: Colors.red[800]),
-                  ),
-                  SizedBox(width: 10),
-                  Text(df.format(_selectedDateEnd)),
-                  IconButton(
-                      icon: Icon(Icons.date_range, color: Colors.red[800]),
-                      onPressed: () {
-                        getData(1);
-                      }),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Card(
-              child: Column(
-                children: [
-                  _reasonField(),
-                  Divider(),
-                  _protocolNumberField(),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(children: [
-              IconButton(
-
-                icon: Icon(Icons.thermostat, color: Colors.red[800], size: 60),
+        appBar: AppBar(
+          title: Text("Crea qui la tua Mutua"),
+          backgroundColor: Colors.red[800],
+          actions: [
+            IconButton(
+                icon: Icon(Icons.logout),
                 onPressed: () {
-                 showAlertDialog(context);
-                },
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoricalPage()));
+                })
+          ],
+        ),
+        body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: [
+              Card(
+                child: Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Text(
+                      "DAL",
+                      style: TextStyle(fontSize: 16, color: Colors.red[800]),
+                    ),
+                    SizedBox(width: 10),
+                    Text(df.format(_selectedDateStart)),
+                    IconButton(
+                        icon: Icon(
+                          Icons.date_range,
+                          color: Colors.red[800],
+                        ),
+                        onPressed: () {
+                          getData(0);
+                        }),
+                    SizedBox(width: 60),
+                    Text(
+                      "AL",
+                      style: TextStyle(fontSize: 16, color: Colors.red[800]),
+                    ),
+                    SizedBox(width: 10),
+                    Text(df.format(_selectedDateEnd)),
+                    IconButton(
+                        icon: Icon(Icons.date_range, color: Colors.red[800]),
+                        onPressed: () {
+                          getData(1);
+                        }),
+                  ],
+                ),
               ),
-              SizedBox(width: 290),
-                  FloatingActionButton(onPressed: (){
-                    Mutua m = MutuaControl.creaMutua("", _selectedDateStart, _selectedDateEnd, "");
-                    MutuaControl.addMutua(m);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HistoricalPage()));
-
-                  }, child: Text("INVIA"), backgroundColor: Colors.red[800],),
+              SizedBox(height: 10),
+              Card(
+                child: Column(
+                  children: [
+                    _reasonField(),
+                    Divider(),
+                    _protocolNumberField(),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.thermostat,
+                        color: Colors.red[800], size: 60),
+                    onPressed: () {
+                      showAlertDialog(context);
+                    },
+                  ),
+                  SizedBox(width: 290),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Mutua m = MutuaControl.creaMutua(
+                          n.reason.toString(),
+                          _selectedDateStart,
+                          _selectedDateEnd,
+                          n.protocolNumber.toString());
+                      MutuaControl.addMutua(m);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HistoricalPage()));
+                    },
+                    child: Text("INVIA"),
+                    backgroundColor: Colors.red[800],
+                  ),
                 ],
               )
-            ])
-          )
-    );
+            ])));
   }
-
 
   Widget _reasonField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
@@ -164,21 +169,21 @@ class _MutuaPageState extends State<MutuaPage> {
         ),
       );
 
-
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text("Cancel"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
       child: Text("Continue"),
-      onPressed:  () {},
+      onPressed: () {},
     );
     AlertDialog alert = AlertDialog(
       title: Text(""),
-      content: Text("Sei sicuro di voler inviare il primo messaggio relativo alla mutua? "),
+      content: Text(
+          "Sei sicuro di voler inviare il primo messaggio relativo alla mutua? "),
       actions: [
         cancelButton,
         continueButton,
