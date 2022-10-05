@@ -70,6 +70,13 @@ class _HistoricalPageState extends State<HistoricalPage> {
                       readOnly: true),
                       TextField(controller: protocolNumber_new,
                       readOnly: true),
+                      Row(children: [
+                        TextButton(onPressed: (){}, child: Text("Conferma", style: TextStyle(color: Colors.red[800]),)),
+                        SizedBox(width: 140),
+                        Row(children: [
+                          TextButton(onPressed: (){}, child: Text("Aggiorna dati", style: TextStyle(color: Colors.red[800]),))
+                        ],)
+                      ],)
                     ],
                 ),
               ),
@@ -88,7 +95,10 @@ class _HistoricalPageState extends State<HistoricalPage> {
                       TextField(controller: data_end_inProgress,
                           readOnly: true),
                       TextField(controller: protocolNumber_inProgress,
-                          readOnly: true)
+                          readOnly: true),
+                      Row(children: [
+                        TextButton(onPressed: (){}, child: Text("OK", style: TextStyle(color: Colors.red[800]),))
+                      ],)
                     ],
                   ),
                 ),
