@@ -8,6 +8,7 @@ import '../entity/mutua.dart';
 class HistoricalPage extends StatefulWidget {
   const HistoricalPage({Key? key}) : super(key: key);
 
+
   @override
   State<HistoricalPage> createState() => _HistoricalPageState();
 }
@@ -32,6 +33,13 @@ class _HistoricalPageState extends State<HistoricalPage> {
   final TextEditingController data_end_new = TextEditingController(text: "");
   final TextEditingController protocolNumber_new = TextEditingController(text: "");
 
+  final TextEditingController data_start_inProgress = TextEditingController(text: "");
+  final TextEditingController data_end_inProgress = TextEditingController(text: "");
+  final TextEditingController protocolNumber_inProgress = TextEditingController(text: "");
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,24 +60,35 @@ class _HistoricalPageState extends State<HistoricalPage> {
           Container(
             child: Padding(
               padding: const EdgeInsets.all(40.0),
-              child: Center(
                 child: Card(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       TextField(controller: data_start_new,
-                      ),
-                      TextField(controller: data_end_new),
-                      TextField(controller: protocolNumber_new),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget> [
-                          TextButton(
-                            child: const Text('Modifica'),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
+                        readOnly: true),
+                      TextField(controller: data_end_new,
+                      readOnly: true),
+                      TextField(controller: protocolNumber_new,
+                      readOnly: true),
+                    ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+              child: Center(
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextField(controller: data_start_inProgress,
+                          readOnly: true),
+                      TextField(controller: data_end_inProgress,
+                          readOnly: true),
+                      TextField(controller: protocolNumber_inProgress,
+                          readOnly: true)
                     ],
                   ),
                 ),
@@ -85,31 +104,6 @@ class _HistoricalPageState extends State<HistoricalPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       TextField(),
-                      TextField(),
-                      TextField(),
-                      TextButton(
-                        child: const Text('Ok'),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
-              child: Center(
-                child: Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      TextField(),
-                      TextButton(
-                        child: const Text('Ok'),
-                        onPressed: () {},
-                      ),
                     ],
                   ),
                 ),

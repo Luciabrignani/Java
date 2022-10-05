@@ -119,10 +119,10 @@ class _MutuaPageState extends State<MutuaPage> {
                   FloatingActionButton(
                     onPressed: () {
                       Mutua m = MutuaControl.creaMutua(
-                          n.reason.toString(),
+                           reason.text,
                           _selectedDateStart,
                           _selectedDateEnd,
-                          n.protocolNumber.toString());
+                          protocolNumber.text);
                       MutuaControl.addMutua(m);
                       Navigator.push(
                           context,
