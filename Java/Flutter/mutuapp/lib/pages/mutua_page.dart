@@ -44,6 +44,7 @@ class _MutuaPageState extends State<MutuaPage> {
   @override
   Widget build(BuildContext context) {
     final DateFormat df = DateFormat("dd/MM/yyyy");
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Crea qui la tua Mutua"),
@@ -105,36 +106,31 @@ class _MutuaPageState extends State<MutuaPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.thermostat,
-                        color: Colors.red[800], size: 60),
-                    onPressed: () {
-                      showAlertDialog(context);
-                    },
-                  ),
-                  SizedBox(width: 290),
-                  FloatingActionButton(
-                    onPressed: () {
-                      Mutua m = MutuaControl.creaMutua(
-                           reason.text,
-                          _selectedDateStart,
-                          _selectedDateEnd,
-                          protocolNumber.text);
-                      MutuaControl.addMutua(m);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HistoricalPage()));
-                    },
-                    child: Text("INVIA"),
-                    backgroundColor: Colors.red[800],
+              SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          Mutua m = MutuaControl.creaMutua(
+                               reason.text,
+                              _selectedDateStart,
+                              _selectedDateEnd,
+                              protocolNumber.text);
+                          MutuaControl.addMutua(m);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HistoricalPage()));
+                        },
+                        child: Text("INVIA"),
+                        backgroundColor: Colors.red[800],
+                      ),
+                    ],
                   ),
                 ],
               )
-            ])));
+        ),);
   }
 
   Widget _reasonField() => Padding(
