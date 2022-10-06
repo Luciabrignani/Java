@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:mutuapp/control/MutuaControl.dart';
 import 'package:mutuapp/pages/historical_page.dart';
 
+import '../entity/Status.dart';
 import '../entity/mutua.dart';
 
 class MutuaPage extends StatefulWidget {
@@ -12,7 +13,42 @@ class MutuaPage extends StatefulWidget {
   State<MutuaPage> createState() => _MutuaPageState();
 }
 
+
 class _MutuaPageState extends State<MutuaPage> {
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
+    load() {
+      //controllo la mutua nello status NEW
+      if (MutuaControl.getMutua()
+          .where((e) => e.status == Status.NEW)
+          .isNotEmpty) {
+        if (MutuaControl.getMutuaStatus(Status.NEW).start != null &&
+            MutuaControl.getMutuaStatus(Status.NEW).end != null &&
+            MutuaControl.getMutuaStatus(Status.NEW).protocolNumber != null) {
+          data_start_new.text =
+              MutuaControl.getMutuaStatus(Status.NEW).start.toString();
+          data_end_new.text =
+              MutuaControl.getMutuaStatus(Status.NEW).end.toString();
+          protocolNumber_new.text =
+              MutuaControl.getMutuaStatus(Status.NEW).protocolNumber.toString();
+        } else {
+          data_start_new.text = "";
+          data_end_new.text = "";
+          protocolNumber_new.text = "";
+        }
+      } else {
+        data_start_new.text = "";
+        data_end_new.text = "";
+        protocolNumber_new.text = "";
+
+
+  }
+
+
+
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedDateStart = DateTime.now();
   DateTime _selectedDateEnd = DateTime.now();

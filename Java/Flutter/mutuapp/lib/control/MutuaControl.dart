@@ -67,7 +67,9 @@ class MutuaControl {
     if (MutuaControl.getMutua()
         .where((e) => e.status == Status.NEW)
         .isNotEmpty) {
-      load();
+      MutuaControl.getMutuaStatus(Status.NEW).start.toString();
+      MutuaControl.getMutuaStatus(Status.NEW).end.toString();
+
     } else {
       data_start_new.text = "";
       data_end_new.text = "";
